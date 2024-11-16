@@ -1046,6 +1046,109 @@
     }
   },
   {
+    "name": "cidadeGanhador",
+    "type": "type",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "cidadeGanhador"
+          }
+        },
+        "cidade": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "estado": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "quantidade": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "number"
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "name": "premiacao",
+    "type": "type",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "premiacao"
+          }
+        },
+        "categoria": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "acertos": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "number"
+          },
+          "optional": true
+        },
+        "ganhadores": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "number"
+          },
+          "optional": true
+        },
+        "premio": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "number"
+          },
+          "optional": true
+        },
+        "cidadesGanhadores": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "array",
+            "of": {
+              "type": "object",
+              "attributes": {
+                "_key": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "string"
+                  }
+                }
+              },
+              "rest": {
+                "type": "inline",
+                "name": "cidadeGanhador"
+              }
+            }
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
     "name": "page",
     "type": "document",
     "attributes": {
@@ -1473,6 +1576,446 @@
           },
           "optional": true
         }
+      }
+    }
+  },
+  {
+    "name": "jogoFuturo",
+    "type": "document",
+    "attributes": {
+      "_id": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_type": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string",
+          "value": "jogoFuturo"
+        }
+      },
+      "_createdAt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_updatedAt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_rev": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "concurso": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "number"
+        },
+        "optional": false
+      },
+      "dataSorteio": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": false
+      },
+      "tipoJogo": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "megavirada"
+            },
+            {
+              "type": "string",
+              "value": "maismilionaria"
+            },
+            {
+              "type": "string",
+              "value": "megasena"
+            },
+            {
+              "type": "string",
+              "value": "lotofacil"
+            },
+            {
+              "type": "string",
+              "value": "quina"
+            },
+            {
+              "type": "string",
+              "value": "lotomania"
+            },
+            {
+              "type": "string",
+              "value": "timemania"
+            },
+            {
+              "type": "string",
+              "value": "duplasena"
+            },
+            {
+              "type": "string",
+              "value": "loteca"
+            },
+            {
+              "type": "string",
+              "value": "diadesorte"
+            },
+            {
+              "type": "string",
+              "value": "supersete"
+            }
+          ]
+        },
+        "optional": false
+      },
+      "estimativaPremio": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "number"
+        },
+        "optional": false
+      }
+    }
+  },
+  {
+    "name": "resultadoLoteria",
+    "type": "document",
+    "attributes": {
+      "_id": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_type": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string",
+          "value": "resultadoLoteria"
+        }
+      },
+      "_createdAt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_updatedAt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_rev": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "concurso": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "number"
+        },
+        "optional": false
+      },
+      "dataSorteio": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": false
+      },
+      "tipoJogo": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "megavirada"
+            },
+            {
+              "type": "string",
+              "value": "maismilionaria"
+            },
+            {
+              "type": "string",
+              "value": "megasena"
+            },
+            {
+              "type": "string",
+              "value": "lotofacil"
+            },
+            {
+              "type": "string",
+              "value": "quina"
+            },
+            {
+              "type": "string",
+              "value": "lotomania"
+            },
+            {
+              "type": "string",
+              "value": "timemania"
+            },
+            {
+              "type": "string",
+              "value": "duplasena"
+            },
+            {
+              "type": "string",
+              "value": "loteca"
+            },
+            {
+              "type": "string",
+              "value": "diadesorte"
+            },
+            {
+              "type": "string",
+              "value": "supersete"
+            }
+          ]
+        },
+        "optional": false
+      },
+      "numerosSort": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "array",
+          "of": {
+            "type": "number"
+          }
+        },
+        "optional": true
+      },
+      "numerosTrevoSort": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "array",
+          "of": {
+            "type": "number"
+          }
+        },
+        "optional": true
+      },
+      "segundoSorteio": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "array",
+          "of": {
+            "type": "number"
+          }
+        },
+        "optional": true
+      },
+      "timeCoracao": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "mesSorte": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "Janeiro"
+            },
+            {
+              "type": "string",
+              "value": "Fevereiro"
+            },
+            {
+              "type": "string",
+              "value": "Março"
+            },
+            {
+              "type": "string",
+              "value": "Abril"
+            },
+            {
+              "type": "string",
+              "value": "Maio"
+            },
+            {
+              "type": "string",
+              "value": "Junho"
+            },
+            {
+              "type": "string",
+              "value": "Julho"
+            },
+            {
+              "type": "string",
+              "value": "Agosto"
+            },
+            {
+              "type": "string",
+              "value": "Setembro"
+            },
+            {
+              "type": "string",
+              "value": "Outubro"
+            },
+            {
+              "type": "string",
+              "value": "Novembro"
+            },
+            {
+              "type": "string",
+              "value": "Dezembro"
+            }
+          ]
+        },
+        "optional": true
+      },
+      "jogosFutebol": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "array",
+          "of": {
+            "type": "object",
+            "attributes": {
+              "time1": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
+              "time2": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
+              "resultado": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "union",
+                  "of": [
+                    {
+                      "type": "string",
+                      "value": "Coluna 1"
+                    },
+                    {
+                      "type": "string",
+                      "value": "Coluna do Meio"
+                    },
+                    {
+                      "type": "string",
+                      "value": "Coluna 2"
+                    }
+                  ]
+                },
+                "optional": true
+              }
+            },
+            "rest": {
+              "type": "object",
+              "attributes": {
+                "_key": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "optional": true
+      },
+      "superseteNumeros": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "array",
+          "of": {
+            "type": "object",
+            "attributes": {
+              "coluna": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "number"
+                },
+                "optional": true
+              },
+              "numero": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "number"
+                },
+                "optional": true
+              }
+            },
+            "rest": {
+              "type": "object",
+              "attributes": {
+                "_key": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "optional": true
+      },
+      "premiacoes": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "array",
+          "of": {
+            "type": "object",
+            "attributes": {
+              "_key": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                }
+              }
+            },
+            "rest": {
+              "type": "inline",
+              "name": "premiacao"
+            }
+          }
+        },
+        "optional": true
+      },
+      "acumulado": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "number"
+        },
+        "optional": true
+      },
+      "proxEstimativa": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "number"
+        },
+        "optional": true
       }
     }
   },
@@ -2072,6 +2615,162 @@
           },
           "optional": true
         }
+      }
+    }
+  },
+  {
+    "name": "configuracoesJogo",
+    "type": "document",
+    "attributes": {
+      "_id": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_type": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string",
+          "value": "configuracoesJogo"
+        }
+      },
+      "_createdAt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_updatedAt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_rev": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "tipoJogo": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "megavirada"
+            },
+            {
+              "type": "string",
+              "value": "maismilionaria"
+            },
+            {
+              "type": "string",
+              "value": "megasena"
+            },
+            {
+              "type": "string",
+              "value": "lotofacil"
+            },
+            {
+              "type": "string",
+              "value": "quina"
+            },
+            {
+              "type": "string",
+              "value": "lotomania"
+            },
+            {
+              "type": "string",
+              "value": "timemania"
+            },
+            {
+              "type": "string",
+              "value": "duplasena"
+            },
+            {
+              "type": "string",
+              "value": "loteca"
+            },
+            {
+              "type": "string",
+              "value": "diadesorte"
+            },
+            {
+              "type": "string",
+              "value": "supersete"
+            }
+          ]
+        },
+        "optional": false
+      },
+      "numeroMinimo": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "number"
+        },
+        "optional": false
+      },
+      "numeroMaximo": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "number"
+        },
+        "optional": false
+      },
+      "quantidadeNumeros": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "number"
+        },
+        "optional": false
+      },
+      "quantidadeMaximaDeNumerosPorJogo": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "number"
+        },
+        "optional": false
+      },
+      "numeroMinimoTrevo": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "number"
+        },
+        "optional": true
+      },
+      "numeroMaximoTrevo": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "number"
+        },
+        "optional": true
+      },
+      "times": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "array",
+          "of": {
+            "type": "string"
+          }
+        },
+        "optional": true
+      },
+      "quantidadeColunas": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "number"
+        },
+        "optional": true
+      },
+      "numerosColuna": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "number"
+        },
+        "optional": true
       }
     }
   },
