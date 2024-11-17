@@ -166,6 +166,24 @@ export type BlockContent = Array<{
   _key: string;
 }>;
 
+export type CidadeGanhador = {
+  _type: "cidadeGanhador";
+  cidade?: string;
+  estado?: string;
+  quantidade?: number;
+};
+
+export type Premiacao = {
+  _type: "premiacao";
+  categoria?: string;
+  acertos?: number;
+  ganhadores?: number;
+  premio?: number;
+  cidadesGanhadores?: Array<{
+    _key: string;
+  } & CidadeGanhador>;
+};
+
 export type Page = {
   _id: string;
   _type: "page";
@@ -240,6 +258,50 @@ export type Slug = {
   _type: "slug";
   current: string;
   source?: string;
+};
+
+export type JogoFuturo = {
+  _id: string;
+  _type: "jogoFuturo";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  concurso: number;
+  dataSorteio: string;
+  tipoJogo: "megavirada" | "maismilionaria" | "megasena" | "lotofacil" | "quina" | "lotomania" | "timemania" | "duplasena" | "loteca" | "diadesorte" | "supersete";
+  estimativaPremio: number;
+};
+
+export type ResultadoLoteria = {
+  _id: string;
+  _type: "resultadoLoteria";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  concurso: number;
+  dataSorteio: string;
+  tipoJogo: "megavirada" | "maismilionaria" | "megasena" | "lotofacil" | "quina" | "lotomania" | "timemania" | "duplasena" | "loteca" | "diadesorte" | "supersete";
+  numerosSort?: Array<number>;
+  numerosTrevoSort?: Array<number>;
+  segundoSorteio?: Array<number>;
+  timeCoracao?: string;
+  mesSorte?: "Janeiro" | "Fevereiro" | "Mar\xE7o" | "Abril" | "Maio" | "Junho" | "Julho" | "Agosto" | "Setembro" | "Outubro" | "Novembro" | "Dezembro";
+  jogosFutebol?: Array<{
+    time1?: string;
+    time2?: string;
+    resultado?: "Coluna 1" | "Coluna do Meio" | "Coluna 2";
+    _key: string;
+  }>;
+  superseteNumeros?: Array<{
+    coluna?: number;
+    numero?: number;
+    _key: string;
+  }>;
+  premiacoes?: Array<{
+    _key: string;
+  } & Premiacao>;
+  acumulado?: number;
+  proxEstimativa?: number;
 };
 
 export type Settings = {
@@ -337,6 +399,24 @@ export type SanityImageMetadata = {
   blurHash?: string;
   hasAlpha?: boolean;
   isOpaque?: boolean;
+};
+
+export type ConfiguracoesJogo = {
+  _id: string;
+  _type: "configuracoesJogo";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  tipoJogo: "megavirada" | "maismilionaria" | "megasena" | "lotofacil" | "quina" | "lotomania" | "timemania" | "duplasena" | "loteca" | "diadesorte" | "supersete";
+  numeroMinimo: number;
+  numeroMaximo: number;
+  quantidadeNumeros: number;
+  quantidadeMaximaDeNumerosPorJogo: number;
+  numeroMinimoTrevo?: number;
+  numeroMaximoTrevo?: number;
+  times?: Array<string>;
+  quantidadeColunas?: number;
+  numerosColuna?: number;
 };
 
 export type SanityAssistInstructionTask = {
@@ -460,19 +540,215 @@ export type SanityAssistSchemaTypeField = {
   } & SanityAssistInstruction>;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | CallToAction | Link | InfoSection | BlockContent | Page | Post | Person | Slug | Settings | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | SanityAssistInstructionTask | SanityAssistTaskStatus | SanityAssistSchemaTypeAnnotations | SanityAssistOutputType | SanityAssistOutputField | SanityAssistInstructionContext | AssistInstructionContext | SanityAssistInstructionUserInput | SanityAssistInstructionPrompt | SanityAssistInstructionFieldRef | SanityAssistInstruction | SanityAssistSchemaTypeField;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | CallToAction | Link | InfoSection | BlockContent | CidadeGanhador | Premiacao | Page | Post | Person | Slug | JogoFuturo | ResultadoLoteria | Settings | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | ConfiguracoesJogo | SanityAssistInstructionTask | SanityAssistTaskStatus | SanityAssistSchemaTypeAnnotations | SanityAssistOutputType | SanityAssistOutputField | SanityAssistInstructionContext | AssistInstructionContext | SanityAssistInstructionUserInput | SanityAssistInstructionPrompt | SanityAssistInstructionFieldRef | SanityAssistInstruction | SanityAssistSchemaTypeField;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
+// Variable: gameConfigQuery
+// Query: *[_type == "configuracoesJogo" && tipoJogo == $tipoJogo][0]{    _id,    tipoJogo,    numeroMinimo,    numeroMaximo,    quantidadeNumeros,    valorAposta,    numeroMinimoTrevo,    numeroMaximoTrevo,    times,    quantidadeColunas,    numerosColuna  }
+export type GameConfigQueryResult = {
+  _id: string;
+  tipoJogo: "diadesorte" | "duplasena" | "loteca" | "lotofacil" | "lotomania" | "maismilionaria" | "megasena" | "megavirada" | "quina" | "supersete" | "timemania";
+  numeroMinimo: number;
+  numeroMaximo: number;
+  quantidadeNumeros: number;
+  valorAposta: null;
+  numeroMinimoTrevo: number | null;
+  numeroMaximoTrevo: number | null;
+  times: Array<string> | null;
+  quantidadeColunas: number | null;
+  numerosColuna: number | null;
+} | null;
+// Variable: allGameConfigsQuery
+// Query: *[_type == "configuracoesJogo"] | order(tipoJogo asc) {    _id,    tipoJogo,    numeroMinimo,    numeroMaximo,    quantidadeNumeros,    valorAposta  }
+export type AllGameConfigsQueryResult = Array<{
+  _id: string;
+  tipoJogo: "diadesorte" | "duplasena" | "loteca" | "lotofacil" | "lotomania" | "maismilionaria" | "megasena" | "megavirada" | "quina" | "supersete" | "timemania";
+  numeroMinimo: number;
+  numeroMaximo: number;
+  quantidadeNumeros: number;
+  valorAposta: null;
+}>;
+// Variable: lastResultQuery
+// Query: *[_type == "resultadoLoteria" && tipoJogo == $tipoJogo] | order(concurso desc) [0] {      _id,  concurso,  dataSorteio,  tipoJogo,  numerosSort,  numerosTrevoSort,  segundoSorteio,  timeCoracao,  mesSorte,  jogosFutebol,  superseteNumeros,  premiacoes[]{    categoria,    acertos,    ganhadores,    premio,    cidadesGanhadores[]{      cidade,      estado,      quantidade    }  },  acumulado,  proxEstimativa  }
+export type LastResultQueryResult = {
+  _id: string;
+  concurso: number;
+  dataSorteio: string;
+  tipoJogo: "diadesorte" | "duplasena" | "loteca" | "lotofacil" | "lotomania" | "maismilionaria" | "megasena" | "megavirada" | "quina" | "supersete" | "timemania";
+  numerosSort: Array<number> | null;
+  numerosTrevoSort: Array<number> | null;
+  segundoSorteio: Array<number> | null;
+  timeCoracao: string | null;
+  mesSorte: "Abril" | "Agosto" | "Dezembro" | "Fevereiro" | "Janeiro" | "Julho" | "Junho" | "Maio" | "Mar\xE7o" | "Novembro" | "Outubro" | "Setembro" | null;
+  jogosFutebol: Array<{
+    time1?: string;
+    time2?: string;
+    resultado?: "Coluna 1" | "Coluna 2" | "Coluna do Meio";
+    _key: string;
+  }> | null;
+  superseteNumeros: Array<{
+    coluna?: number;
+    numero?: number;
+    _key: string;
+  }> | null;
+  premiacoes: Array<{
+    categoria: string | null;
+    acertos: number | null;
+    ganhadores: number | null;
+    premio: number | null;
+    cidadesGanhadores: Array<{
+      cidade: string | null;
+      estado: string | null;
+      quantidade: number | null;
+    }> | null;
+  }> | null;
+  acumulado: number | null;
+  proxEstimativa: number | null;
+} | null;
+// Variable: lastResultsQuery
+// Query: *[_type == "resultadoLoteria" && tipoJogo == $tipoJogo] | order(concurso desc) [0...$limit] {      _id,  concurso,  dataSorteio,  tipoJogo,  numerosSort,  numerosTrevoSort,  segundoSorteio,  timeCoracao,  mesSorte,  jogosFutebol,  superseteNumeros,  premiacoes[]{    categoria,    acertos,    ganhadores,    premio,    cidadesGanhadores[]{      cidade,      estado,      quantidade    }  },  acumulado,  proxEstimativa  }
+export type LastResultsQueryResult = Array<{
+  _id: string;
+  concurso: number;
+  dataSorteio: string;
+  tipoJogo: "diadesorte" | "duplasena" | "loteca" | "lotofacil" | "lotomania" | "maismilionaria" | "megasena" | "megavirada" | "quina" | "supersete" | "timemania";
+  numerosSort: Array<number> | null;
+  numerosTrevoSort: Array<number> | null;
+  segundoSorteio: Array<number> | null;
+  timeCoracao: string | null;
+  mesSorte: "Abril" | "Agosto" | "Dezembro" | "Fevereiro" | "Janeiro" | "Julho" | "Junho" | "Maio" | "Mar\xE7o" | "Novembro" | "Outubro" | "Setembro" | null;
+  jogosFutebol: Array<{
+    time1?: string;
+    time2?: string;
+    resultado?: "Coluna 1" | "Coluna 2" | "Coluna do Meio";
+    _key: string;
+  }> | null;
+  superseteNumeros: Array<{
+    coluna?: number;
+    numero?: number;
+    _key: string;
+  }> | null;
+  premiacoes: Array<{
+    categoria: string | null;
+    acertos: number | null;
+    ganhadores: number | null;
+    premio: number | null;
+    cidadesGanhadores: Array<{
+      cidade: string | null;
+      estado: string | null;
+      quantidade: number | null;
+    }> | null;
+  }> | null;
+  acumulado: number | null;
+  proxEstimativa: number | null;
+}>;
+// Variable: resultByDrawQuery
+// Query: *[_type == "resultadoLoteria" && tipoJogo == $tipoJogo && concurso == $concurso][0] {      _id,  concurso,  dataSorteio,  tipoJogo,  numerosSort,  numerosTrevoSort,  segundoSorteio,  timeCoracao,  mesSorte,  jogosFutebol,  superseteNumeros,  premiacoes[]{    categoria,    acertos,    ganhadores,    premio,    cidadesGanhadores[]{      cidade,      estado,      quantidade    }  },  acumulado,  proxEstimativa  }
+export type ResultByDrawQueryResult = {
+  _id: string;
+  concurso: number;
+  dataSorteio: string;
+  tipoJogo: "diadesorte" | "duplasena" | "loteca" | "lotofacil" | "lotomania" | "maismilionaria" | "megasena" | "megavirada" | "quina" | "supersete" | "timemania";
+  numerosSort: Array<number> | null;
+  numerosTrevoSort: Array<number> | null;
+  segundoSorteio: Array<number> | null;
+  timeCoracao: string | null;
+  mesSorte: "Abril" | "Agosto" | "Dezembro" | "Fevereiro" | "Janeiro" | "Julho" | "Junho" | "Maio" | "Mar\xE7o" | "Novembro" | "Outubro" | "Setembro" | null;
+  jogosFutebol: Array<{
+    time1?: string;
+    time2?: string;
+    resultado?: "Coluna 1" | "Coluna 2" | "Coluna do Meio";
+    _key: string;
+  }> | null;
+  superseteNumeros: Array<{
+    coluna?: number;
+    numero?: number;
+    _key: string;
+  }> | null;
+  premiacoes: Array<{
+    categoria: string | null;
+    acertos: number | null;
+    ganhadores: number | null;
+    premio: number | null;
+    cidadesGanhadores: Array<{
+      cidade: string | null;
+      estado: string | null;
+      quantidade: number | null;
+    }> | null;
+  }> | null;
+  acumulado: number | null;
+  proxEstimativa: number | null;
+} | null;
+// Variable: allResultsQuery
+// Query: *[_type == "resultadoLoteria"] | order(dataSorteio desc) {      _id,  concurso,  dataSorteio,  tipoJogo,  numerosSort,  numerosTrevoSort,  segundoSorteio,  timeCoracao,  mesSorte,  jogosFutebol,  superseteNumeros,  premiacoes[]{    categoria,    acertos,    ganhadores,    premio,    cidadesGanhadores[]{      cidade,      estado,      quantidade    }  },  acumulado,  proxEstimativa  }
+export type AllResultsQueryResult = Array<{
+  _id: string;
+  concurso: number;
+  dataSorteio: string;
+  tipoJogo: "diadesorte" | "duplasena" | "loteca" | "lotofacil" | "lotomania" | "maismilionaria" | "megasena" | "megavirada" | "quina" | "supersete" | "timemania";
+  numerosSort: Array<number> | null;
+  numerosTrevoSort: Array<number> | null;
+  segundoSorteio: Array<number> | null;
+  timeCoracao: string | null;
+  mesSorte: "Abril" | "Agosto" | "Dezembro" | "Fevereiro" | "Janeiro" | "Julho" | "Junho" | "Maio" | "Mar\xE7o" | "Novembro" | "Outubro" | "Setembro" | null;
+  jogosFutebol: Array<{
+    time1?: string;
+    time2?: string;
+    resultado?: "Coluna 1" | "Coluna 2" | "Coluna do Meio";
+    _key: string;
+  }> | null;
+  superseteNumeros: Array<{
+    coluna?: number;
+    numero?: number;
+    _key: string;
+  }> | null;
+  premiacoes: Array<{
+    categoria: string | null;
+    acertos: number | null;
+    ganhadores: number | null;
+    premio: number | null;
+    cidadesGanhadores: Array<{
+      cidade: string | null;
+      estado: string | null;
+      quantidade: number | null;
+    }> | null;
+  }> | null;
+  acumulado: number | null;
+  proxEstimativa: number | null;
+}>;
+// Variable: futureGamesByTypeQuery
+// Query: *[_type == "jogoFuturo" && tipoJogo == $tipoJogo && dataSorteio > now()] | order(dataSorteio asc) {      _id,  concurso,  dataSorteio,  tipoJogo,  estimativaPremio  }
+export type FutureGamesByTypeQueryResult = Array<{
+  _id: string;
+  concurso: number;
+  dataSorteio: string;
+  tipoJogo: "diadesorte" | "duplasena" | "loteca" | "lotofacil" | "lotomania" | "maismilionaria" | "megasena" | "megavirada" | "quina" | "supersete" | "timemania";
+  estimativaPremio: number;
+}>;
+// Variable: allFutureGamesQuery
+// Query: *[_type == "jogoFuturo" && dataSorteio > now()] | order(dataSorteio asc) {      _id,  concurso,  dataSorteio,  tipoJogo,  estimativaPremio  }
+export type AllFutureGamesQueryResult = Array<{
+  _id: string;
+  concurso: number;
+  dataSorteio: string;
+  tipoJogo: "diadesorte" | "duplasena" | "loteca" | "lotofacil" | "lotomania" | "maismilionaria" | "megasena" | "megavirada" | "quina" | "supersete" | "timemania";
+  estimativaPremio: number;
+}>;
+// Variable: gameStatsQuery
+// Query: {    "ultimoConcurso": *[_type == "resultadoLoteria" && tipoJogo == $tipoJogo] | order(concurso desc) [0].concurso,    "totalAcumulado": *[_type == "resultadoLoteria" && tipoJogo == $tipoJogo && defined(acumulado) && acumulado > 0] | order(concurso desc) [0].acumulado,    "maiorPremio": *[_type == "resultadoLoteria" && tipoJogo == $tipoJogo].premiacoes[].premio | order(@ desc) [0],    "ultimoSorteio": *[_type == "resultadoLoteria" && tipoJogo == $tipoJogo] | order(concurso desc) [0].dataSorteio,    "proximoSorteio": *[_type == "jogoFuturo" && tipoJogo == $tipoJogo && dataSorteio > now()] | order(dataSorteio asc) [0].dataSorteio,  }
+export type GameStatsQueryResult = {
+  ultimoConcurso: number | null;
+  totalAcumulado: number | null;
+  maiorPremio: number | null;
+  ultimoSorteio: string | null;
+  proximoSorteio: string | null;
+};
 // Variable: settingsQuery
-// Query: *[_type == "settings"][0]
+// Query: *[_type == "settings"][0] {      _id,  title,  description,  // Mensagens  messages {    footer,    copyright,    whatsappDefault  },  // Contato  contactInfo {    phone,    whatsapp,    email  },  // Localização  location {    street,    number,    complement,    neighborhood,    city,    state,    zipCode,    googleMapsUrl  },  // Redes Sociais  socialMedia {    instagram {      url,      handle    },    facebook {      url,      name    },    youtube {      url,      handle    },    twitter {      url,      handle    }  },  // Horários  businessHours[] {    days,    hours,    closed  },  // SEO  seo {    metadataBase,    ogImage {      asset->,      alt    },    favicon {      asset->    }  }  }
 export type SettingsQueryResult = {
   _id: string;
-  _type: "settings";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
   title: string;
-  description?: Array<{
+  description: Array<{
     children?: Array<{
       marks?: Array<string>;
       text?: string;
@@ -489,250 +765,93 @@ export type SettingsQueryResult = {
     level?: number;
     _type: "block";
     _key: string;
-  }>;
-  ogImage?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    metadataBase?: string;
-    _type: "image";
-  };
-} | null;
-// Variable: getPageQuery
-// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    name,    slug,    heading,    subheading,    "pageBuilder": pageBuilder[]{      ...,      _type == "callToAction" => {        ...,          link {      ...,      _type == "link" => {        "page": page->slug.current,        "post": post->slug.current        }      },      }    },  }
-export type GetPageQueryResult = {
-  _id: string;
-  name: string;
-  slug: Slug;
-  heading: string;
-  subheading: string | null;
-  pageBuilder: Array<{
-    _key: string;
-    _type: "callToAction";
-    heading?: string;
-    text?: string;
-    buttonText?: string;
-    link: {
-      _type: "link";
-      linkType?: "href" | "page" | "post";
-      href?: string;
-      page: string | null;
-      post: string | null;
-      openInNewTab?: boolean;
-    } | null;
-  } | {
-    _key: string;
-    _type: "infoSection";
-    heading?: string;
-    subheading?: string;
-    content?: Array<{
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-      listItem?: "bullet" | "number";
-      markDefs?: Array<{
-        linkType?: "href" | "page" | "post";
-        href?: string;
-        page?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "page";
-        };
-        post?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "post";
-        };
-        openInNewTab?: boolean;
-        _type: "link";
-        _key: string;
-      }>;
-      level?: number;
-      _type: "block";
-      _key: string;
-    }>;
   }> | null;
+  messages: null;
+  contactInfo: null;
+  location: null;
+  socialMedia: null;
+  businessHours: null;
+  seo: null;
 } | null;
-// Variable: allPostsQuery
-// Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  }
-export type AllPostsQueryResult = Array<{
-  _id: string;
-  status: "draft" | "published";
-  title: string | "Untitled";
-  slug: string;
-  excerpt: string | null;
-  coverImage: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  date: string;
-  author: {
-    firstName: string;
-    lastName: string;
-    picture: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      alt?: string;
-      _type: "image";
-    };
-  } | null;
-}>;
-// Variable: morePostsQuery
-// Query: *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  }
-export type MorePostsQueryResult = Array<{
-  _id: string;
-  status: "draft" | "published";
-  title: string | "Untitled";
-  slug: string;
-  excerpt: string | null;
-  coverImage: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  date: string;
-  author: {
-    firstName: string;
-    lastName: string;
-    picture: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      alt?: string;
-      _type: "image";
-    };
-  } | null;
-}>;
-// Variable: postQuery
-// Query: *[_type == "post" && slug.current == $slug] [0] {    content[]{    ...,    markDefs[]{      ...,        link {      ...,      _type == "link" => {        "page": page->slug.current,        "post": post->slug.current        }      }    }  },      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  }
-export type PostQueryResult = {
-  content: Array<{
+// Variable: seoSettingsQuery
+// Query: *[_type == "settings"][0] {    title,    description,    seo {      metadataBase,      ogImage {        asset-> {          url,          metadata {            dimensions {              width,              height            }          }        },        alt      },      favicon {        asset-> {          url        }      }    }  }
+export type SeoSettingsQueryResult = {
+  title: string;
+  description: Array<{
     children?: Array<{
       marks?: Array<string>;
       text?: string;
       _type: "span";
       _key: string;
     }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-    listItem?: "bullet" | "number";
-    markDefs: Array<{
-      linkType?: "href" | "page" | "post";
-      href?: string;
-      page?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "page";
-      };
-      post?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "post";
-      };
-      openInNewTab?: boolean;
+    style?: "normal";
+    listItem?: never;
+    markDefs?: Array<{
+      href: string;
       _type: "link";
       _key: string;
-      link: null;
-    }> | null;
+    }>;
     level?: number;
     _type: "block";
     _key: string;
   }> | null;
-  _id: string;
-  status: "draft" | "published";
-  title: string | "Untitled";
-  slug: string;
-  excerpt: string | null;
-  coverImage: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  date: string;
-  author: {
-    firstName: string;
-    lastName: string;
-    picture: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      alt?: string;
-      _type: "image";
-    };
-  } | null;
+  seo: null;
 } | null;
-// Variable: postPagesSlugs
-// Query: *[_type == "post" && defined(slug.current)]  {"slug": slug.current}
-export type PostPagesSlugsResult = Array<{
-  slug: string;
-}>;
-// Variable: pagesSlugs
-// Query: *[_type == "page" && defined(slug.current)]  {"slug": slug.current}
-export type PagesSlugsResult = Array<{
-  slug: string;
-}>;
+// Variable: contactSettingsQuery
+// Query: *[_type == "settings"][0] {    title,    contactInfo {      phone,      whatsapp,      email    },    location {      street,      number,      complement,      neighborhood,      city,      state,      zipCode,      googleMapsUrl    },    businessHours[] {      days,      hours,      closed    }  }
+export type ContactSettingsQueryResult = {
+  title: string;
+  contactInfo: null;
+  location: null;
+  businessHours: null;
+} | null;
+// Variable: socialSettingsQuery
+// Query: *[_type == "settings"][0] {    socialMedia {      instagram,      facebook,      youtube,      twitter    }  }
+export type SocialSettingsQueryResult = {
+  socialMedia: null;
+} | null;
+// Variable: basicSettingsQuery
+// Query: *[_type == "settings"][0] {    title,    description,    messages {      footer,      copyright,      whatsappDefault    }  }
+export type BasicSettingsQueryResult = {
+  title: string;
+  description: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal";
+    listItem?: never;
+    markDefs?: Array<{
+      href: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  messages: null;
+} | null;
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"settings\"][0]": SettingsQueryResult;
-    "\n  *[_type == 'page' && slug.current == $slug][0]{\n    _id,\n    name,\n    slug,\n    heading,\n    subheading,\n    \"pageBuilder\": pageBuilder[]{\n      ...,\n      _type == \"callToAction\" => {\n        ...,\n        \n  link {\n      ...,\n      _type == \"link\" => {\n        \"page\": page->slug.current,\n        \"post\": post->slug.current\n        }\n      }\n,\n      }\n    },\n  }\n": GetPageQueryResult;
-    "\n  *[_type == \"post\" && defined(slug.current)] | order(date desc, _updatedAt desc) {\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{firstName, lastName, picture},\n\n  }\n": AllPostsQueryResult;
-    "\n  *[_type == \"post\" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{firstName, lastName, picture},\n\n  }\n": MorePostsQueryResult;
-    "\n  *[_type == \"post\" && slug.current == $slug] [0] {\n    content[]{\n    ...,\n    markDefs[]{\n      ...,\n      \n  link {\n      ...,\n      _type == \"link\" => {\n        \"page\": page->slug.current,\n        \"post\": post->slug.current\n        }\n      }\n\n    }\n  },\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{firstName, lastName, picture},\n\n  }\n": PostQueryResult;
-    "\n  *[_type == \"post\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": PostPagesSlugsResult;
-    "\n  *[_type == \"page\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": PagesSlugsResult;
+    "\n  *[_type == \"configuracoesJogo\" && tipoJogo == $tipoJogo][0]{\n    _id,\n    tipoJogo,\n    numeroMinimo,\n    numeroMaximo,\n    quantidadeNumeros,\n    valorAposta,\n    numeroMinimoTrevo,\n    numeroMaximoTrevo,\n    times,\n    quantidadeColunas,\n    numerosColuna\n  }\n": GameConfigQueryResult;
+    "\n  *[_type == \"configuracoesJogo\"] | order(tipoJogo asc) {\n    _id,\n    tipoJogo,\n    numeroMinimo,\n    numeroMaximo,\n    quantidadeNumeros,\n    valorAposta\n  }\n": AllGameConfigsQueryResult;
+    "\n  *[_type == \"resultadoLoteria\" && tipoJogo == $tipoJogo] | order(concurso desc) [0] {\n    \n  _id,\n  concurso,\n  dataSorteio,\n  tipoJogo,\n  numerosSort,\n  numerosTrevoSort,\n  segundoSorteio,\n  timeCoracao,\n  mesSorte,\n  jogosFutebol,\n  superseteNumeros,\n  premiacoes[]{\n    categoria,\n    acertos,\n    ganhadores,\n    premio,\n    cidadesGanhadores[]{\n      cidade,\n      estado,\n      quantidade\n    }\n  },\n  acumulado,\n  proxEstimativa\n\n  }\n": LastResultQueryResult;
+    "\n  *[_type == \"resultadoLoteria\" && tipoJogo == $tipoJogo] | order(concurso desc) [0...$limit] {\n    \n  _id,\n  concurso,\n  dataSorteio,\n  tipoJogo,\n  numerosSort,\n  numerosTrevoSort,\n  segundoSorteio,\n  timeCoracao,\n  mesSorte,\n  jogosFutebol,\n  superseteNumeros,\n  premiacoes[]{\n    categoria,\n    acertos,\n    ganhadores,\n    premio,\n    cidadesGanhadores[]{\n      cidade,\n      estado,\n      quantidade\n    }\n  },\n  acumulado,\n  proxEstimativa\n\n  }\n": LastResultsQueryResult;
+    "\n  *[_type == \"resultadoLoteria\" && tipoJogo == $tipoJogo && concurso == $concurso][0] {\n    \n  _id,\n  concurso,\n  dataSorteio,\n  tipoJogo,\n  numerosSort,\n  numerosTrevoSort,\n  segundoSorteio,\n  timeCoracao,\n  mesSorte,\n  jogosFutebol,\n  superseteNumeros,\n  premiacoes[]{\n    categoria,\n    acertos,\n    ganhadores,\n    premio,\n    cidadesGanhadores[]{\n      cidade,\n      estado,\n      quantidade\n    }\n  },\n  acumulado,\n  proxEstimativa\n\n  }\n": ResultByDrawQueryResult;
+    "\n  *[_type == \"resultadoLoteria\"] | order(dataSorteio desc) {\n    \n  _id,\n  concurso,\n  dataSorteio,\n  tipoJogo,\n  numerosSort,\n  numerosTrevoSort,\n  segundoSorteio,\n  timeCoracao,\n  mesSorte,\n  jogosFutebol,\n  superseteNumeros,\n  premiacoes[]{\n    categoria,\n    acertos,\n    ganhadores,\n    premio,\n    cidadesGanhadores[]{\n      cidade,\n      estado,\n      quantidade\n    }\n  },\n  acumulado,\n  proxEstimativa\n\n  }\n": AllResultsQueryResult;
+    "\n  *[_type == \"jogoFuturo\" && tipoJogo == $tipoJogo && dataSorteio > now()] | order(dataSorteio asc) {\n    \n  _id,\n  concurso,\n  dataSorteio,\n  tipoJogo,\n  estimativaPremio\n\n  }\n": FutureGamesByTypeQueryResult;
+    "\n  *[_type == \"jogoFuturo\" && dataSorteio > now()] | order(dataSorteio asc) {\n    \n  _id,\n  concurso,\n  dataSorteio,\n  tipoJogo,\n  estimativaPremio\n\n  }\n": AllFutureGamesQueryResult;
+    "\n  {\n    \"ultimoConcurso\": *[_type == \"resultadoLoteria\" && tipoJogo == $tipoJogo] | order(concurso desc) [0].concurso,\n    \"totalAcumulado\": *[_type == \"resultadoLoteria\" && tipoJogo == $tipoJogo && defined(acumulado) && acumulado > 0] | order(concurso desc) [0].acumulado,\n    \"maiorPremio\": *[_type == \"resultadoLoteria\" && tipoJogo == $tipoJogo].premiacoes[].premio | order(@ desc) [0],\n    \"ultimoSorteio\": *[_type == \"resultadoLoteria\" && tipoJogo == $tipoJogo] | order(concurso desc) [0].dataSorteio,\n    \"proximoSorteio\": *[_type == \"jogoFuturo\" && tipoJogo == $tipoJogo && dataSorteio > now()] | order(dataSorteio asc) [0].dataSorteio,\n  }\n": GameStatsQueryResult;
+    "\n  *[_type == \"settings\"][0] {\n    \n  _id,\n  title,\n  description,\n  // Mensagens\n  messages {\n    footer,\n    copyright,\n    whatsappDefault\n  },\n  // Contato\n  contactInfo {\n    phone,\n    whatsapp,\n    email\n  },\n  // Localiza\xE7\xE3o\n  location {\n    street,\n    number,\n    complement,\n    neighborhood,\n    city,\n    state,\n    zipCode,\n    googleMapsUrl\n  },\n  // Redes Sociais\n  socialMedia {\n    instagram {\n      url,\n      handle\n    },\n    facebook {\n      url,\n      name\n    },\n    youtube {\n      url,\n      handle\n    },\n    twitter {\n      url,\n      handle\n    }\n  },\n  // Hor\xE1rios\n  businessHours[] {\n    days,\n    hours,\n    closed\n  },\n  // SEO\n  seo {\n    metadataBase,\n    ogImage {\n      asset->,\n      alt\n    },\n    favicon {\n      asset->\n    }\n  }\n\n  }\n": SettingsQueryResult;
+    "\n  *[_type == \"settings\"][0] {\n    title,\n    description,\n    seo {\n      metadataBase,\n      ogImage {\n        asset-> {\n          url,\n          metadata {\n            dimensions {\n              width,\n              height\n            }\n          }\n        },\n        alt\n      },\n      favicon {\n        asset-> {\n          url\n        }\n      }\n    }\n  }\n": SeoSettingsQueryResult;
+    "\n  *[_type == \"settings\"][0] {\n    title,\n    contactInfo {\n      phone,\n      whatsapp,\n      email\n    },\n    location {\n      street,\n      number,\n      complement,\n      neighborhood,\n      city,\n      state,\n      zipCode,\n      googleMapsUrl\n    },\n    businessHours[] {\n      days,\n      hours,\n      closed\n    }\n  }\n": ContactSettingsQueryResult;
+    "\n  *[_type == \"settings\"][0] {\n    socialMedia {\n      instagram,\n      facebook,\n      youtube,\n      twitter\n    }\n  }\n": SocialSettingsQueryResult;
+    "\n  *[_type == \"settings\"][0] {\n    title,\n    description,\n    messages {\n      footer,\n      copyright,\n      whatsappDefault\n    }\n  }\n": BasicSettingsQueryResult;
   }
 }
