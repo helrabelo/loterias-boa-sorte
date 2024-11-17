@@ -1,80 +1,5 @@
 import { defineQuery } from 'next-sanity';
 
-export const settingsQuery = defineQuery(`*[_type == "settings"][0]`);
-
-const postFields = /* groq */ `
-  _id,
-  "status": select(_originalId in path("drafts.**") => "draft", "published"),
-  "title": coalesce(title, "Untitled"),
-  "slug": slug.current,
-  excerpt,
-  coverImage,
-  "date": coalesce(date, _updatedAt),
-  "author": author->{firstName, lastName, picture},
-`;
-
-const linkFields = /* groq */ `
-  link {
-      ...,
-      _type == "link" => {
-        "page": page->slug.current,
-        "post": post->slug.current
-        }
-      }
-`;
-
-export const getPageQuery = defineQuery(`
-  *[_type == 'page' && slug.current == $slug][0]{
-    _id,
-    name,
-    slug,
-    heading,
-    subheading,
-    "pageBuilder": pageBuilder[]{
-      ...,
-      _type == "callToAction" => {
-        ...,
-        ${linkFields},
-      }
-    },
-  }
-`);
-
-export const allPostsQuery = defineQuery(`
-  *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {
-    ${postFields}
-  }
-`);
-
-export const morePostsQuery = defineQuery(`
-  *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {
-    ${postFields}
-  }
-`);
-
-export const postQuery = defineQuery(`
-  *[_type == "post" && slug.current == $slug] [0] {
-    content[]{
-    ...,
-    markDefs[]{
-      ...,
-      ${linkFields}
-    }
-  },
-    ${postFields}
-  }
-`);
-
-export const postPagesSlugs = defineQuery(`
-  *[_type == "post" && defined(slug.current)]
-  {"slug": slug.current}
-`);
-
-export const pagesSlugs = defineQuery(`
-  *[_type == "page" && defined(slug.current)]
-  {"slug": slug.current}
-`);
-
 // Queries para Loterias
 
 // 1. CAMPOS COMUNS
@@ -113,6 +38,72 @@ const jogoFuturoFields = /* groq */ `
   dataSorteio,
   tipoJogo,
   estimativaPremio
+`;
+
+// 1.3 Campos comuns para settings
+const settingsFields = /* groq */ `
+  _id,
+  title,
+  description,
+  // Mensagens
+  messages {
+    footer,
+    copyright,
+    whatsappDefault
+  },
+  // Contato
+  contactInfo {
+    phone,
+    whatsapp,
+    email
+  },
+  // Localização
+  location {
+    street,
+    number,
+    complement,
+    neighborhood,
+    city,
+    state,
+    zipCode,
+    googleMapsUrl
+  },
+  // Redes Sociais
+  socialMedia {
+    instagram {
+      url,
+      handle
+    },
+    facebook {
+      url,
+      name
+    },
+    youtube {
+      url,
+      handle
+    },
+    twitter {
+      url,
+      handle
+    }
+  },
+  // Horários
+  businessHours[] {
+    days,
+    hours,
+    closed
+  },
+  // SEO
+  seo {
+    metadataBase,
+    ogImage {
+      asset->,
+      alt
+    },
+    favicon {
+      asset->
+    }
+  }
 `;
 
 // 2. QUERIES
@@ -192,8 +183,95 @@ export const gameStatsQuery = defineQuery(`
   {
     "ultimoConcurso": *[_type == "resultadoLoteria" && tipoJogo == $tipoJogo] | order(concurso desc) [0].concurso,
     "totalAcumulado": *[_type == "resultadoLoteria" && tipoJogo == $tipoJogo && defined(acumulado) && acumulado > 0] | order(concurso desc) [0].acumulado,
-    "maiorPremio": *[_type == "resultadoLoteria" && tipoJogo == $tipoJogo].premiacoes[].premio | max(),
+    "maiorPremio": *[_type == "resultadoLoteria" && tipoJogo == $tipoJogo].premiacoes[].premio | order(@ desc) [0],
     "ultimoSorteio": *[_type == "resultadoLoteria" && tipoJogo == $tipoJogo] | order(concurso desc) [0].dataSorteio,
     "proximoSorteio": *[_type == "jogoFuturo" && tipoJogo == $tipoJogo && dataSorteio > now()] | order(dataSorteio asc) [0].dataSorteio,
+  }
+`);
+
+// 2.9 Query principal para settings
+export const settingsQuery = defineQuery(`
+  *[_type == "settings"][0] {
+    ${settingsFields}
+  }
+`);
+
+// 2.10 Query para metadata (SEO)
+export const seoSettingsQuery = defineQuery(`
+  *[_type == "settings"][0] {
+    title,
+    description,
+    seo {
+      metadataBase,
+      ogImage {
+        asset-> {
+          url,
+          metadata {
+            dimensions {
+              width,
+              height
+            }
+          }
+        },
+        alt
+      },
+      favicon {
+        asset-> {
+          url
+        }
+      }
+    }
+  }
+`);
+
+// 2.11 Query para informações de contato
+export const contactSettingsQuery = defineQuery(`
+  *[_type == "settings"][0] {
+    title,
+    contactInfo {
+      phone,
+      whatsapp,
+      email
+    },
+    location {
+      street,
+      number,
+      complement,
+      neighborhood,
+      city,
+      state,
+      zipCode,
+      googleMapsUrl
+    },
+    businessHours[] {
+      days,
+      hours,
+      closed
+    }
+  }
+`);
+
+// 2.12 Query para redes sociais
+export const socialSettingsQuery = defineQuery(`
+  *[_type == "settings"][0] {
+    socialMedia {
+      instagram,
+      facebook,
+      youtube,
+      twitter
+    }
+  }
+`);
+
+// 2.13 Query para configurações básicas
+export const basicSettingsQuery = defineQuery(`
+  *[_type == "settings"][0] {
+    title,
+    description,
+    messages {
+      footer,
+      copyright,
+      whatsappDefault
+    }
   }
 `);
