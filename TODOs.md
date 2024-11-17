@@ -1,0 +1,1 @@
+- [ ] Generate 192x192 and 512x512 icons for the app ( Check manifest.json for more details)

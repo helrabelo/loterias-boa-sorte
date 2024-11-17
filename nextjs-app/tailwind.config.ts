@@ -93,6 +93,100 @@ export default {
           900: '#183122',
           950: '#14211a',
         },
+        // Cores dos estados semânticos
+        semantic: {
+          primary: {
+            50: '#e6f0f9',
+            100: '#cce1f4',
+            200: '#99c3e9',
+            300: '#66a4de',
+            400: '#3386d3',
+            DEFAULT: '#0066b3',
+            600: '#005292',
+            700: '#003d6e',
+            800: '#002947',
+            900: '#001423',
+            bg: {
+              DEFAULT: '#f0f7fe',
+              hover: '#e1f0fd',
+              active: '#cce1f4',
+            },
+          },
+          secondary: {
+            DEFAULT: '#4cc0ad',
+            hover: '#3da899',
+            light: '#a8e5dc',
+            bg: {
+              DEFAULT: '#edfaf8',
+              hover: '#dff5f2',
+            },
+          },
+          accent: {
+            DEFAULT: '#f7941e',
+            hover: '#e58412',
+            light: '#ffc77d',
+            bg: {
+              DEFAULT: '#fff5e8',
+              hover: '#ffe8cc',
+            },
+          },
+          success: {
+            DEFAULT: '#3c763d',
+            hover: '#2b542c',
+            bg: {
+              DEFAULT: '#dff0d8',
+              hover: '#c1e2b3',
+            },
+          },
+          info: {
+            DEFAULT: '#31708f',
+            hover: '#245269',
+            bg: {
+              DEFAULT: '#d9edf7',
+              hover: '#afd9ee',
+            },
+          },
+          warning: {
+            DEFAULT: '#8a6d3b',
+            hover: '#66512c',
+            bg: {
+              DEFAULT: '#fcf8e3',
+              hover: '#f7ecb5',
+            },
+          },
+          danger: {
+            DEFAULT: '#a94442',
+            hover: '#843534',
+            bg: {
+              DEFAULT: '#f2dede',
+              hover: '#e4b9b9',
+            },
+          },
+        },
+        // Cores dos Jogos da Caixa
+        lottery: {
+          'mega-sena': '#00a651',
+          'mega-virada': '#00ab69',
+          'mais-milionaria': '#2a3580',
+          lotofacil: '#91278f',
+          quina: '#2e3192',
+          lotomania: '#e67200',
+          timemania: {
+            DEFAULT: '#fff200',
+            text: '#038141', // Para os textos especiais
+          },
+          'dupla-sena': '#a62b43',
+          loteca: '#eb212c',
+          lotogol: '#2bbde7',
+          'dia-de-sorte': {
+            DEFAULT: '#e3c021',
+            text: '#7e6906', // Para os textos especiais
+          },
+          'super-sete': {
+            DEFAULT: '#bed730',
+            text: '#038141', // Para os textos especiais
+          },
+        },
       },
       fontFamily: {
         sans: ['var(--font-inter)'],
