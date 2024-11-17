@@ -12,34 +12,37 @@ import Header from '@/app/components/Header';
 import * as demo from '@/sanity/lib/demo';
 import { sanityFetch, SanityLive } from '@/sanity/lib/live';
 import { settingsQuery } from '@/sanity/lib/queries';
-import { resolveOpenGraphImage, urlForImage } from '@/sanity/lib/utils';
+import { resolveOpenGraphImage } from '@/sanity/lib/utils';
 import { handleError } from './client-utils';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { data: settings } = await sanityFetch({
+  const { data: settings } = await sanityFetch<typeof settingsQuery>({
     query: settingsQuery,
     stega: false,
   });
 
   // Valores base
   const title = settings?.title || demo.title;
+  // TODO: FIX DESCRIPTION
   const description = settings?.description || demo.description;
 
   // Resolve a URL base para metadata
   let metadataBase: URL | undefined = undefined;
   try {
-    metadataBase = settings?.seo?.metadataBase
-      ? new URL(settings.seo.metadataBase)
+    metadataBase = (settings?.seo as any)?.metadataBase
+      ? new URL((settings?.seo as any)?.metadataBase)
       : undefined;
   } catch {
     // ignora erros de URL inválida
   }
 
   // Resolve OG Image usando sua função existente
-  const ogImage = resolveOpenGraphImage(settings?.seo?.ogImage);
+  // TODO: FIX OG IMAGE
+  const ogImage = resolveOpenGraphImage((settings?.seo as any)?.ogImage);
 
   // Resolve favicon
-  const faviconUrl = settings?.seo?.favicon?.asset.url;
+  // TODO: FIX FAVICON
+  const faviconUrl = (settings?.seo as any)?.favicon?.asset.url;
 
   return {
     metadataBase,
@@ -47,14 +50,15 @@ export async function generateMetadata(): Promise<Metadata> {
       template: `%s | ${title}`,
       default: title,
     },
-    description,
+    // TODO: FIX DESCRIPTION
+    description: '',
 
     // Open Graph
     openGraph: {
       type: 'website',
       siteName: title,
       title,
-      description,
+      description: '',
       images: ogImage ? [ogImage] : [],
     },
 
@@ -62,7 +66,7 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: 'summary_large_image',
       title,
-      description,
+      description: '',
       images: ogImage ? [ogImage] : [],
     },
 
@@ -73,8 +77,9 @@ export async function generateMetadata(): Promise<Metadata> {
       'mega sena',
       'lotofácil',
       'resultados loteria',
-      settings?.location?.city,
-      settings?.location?.state,
+      // TODO: FIX LOCATION
+      (settings?.location as any)?.city,
+      (settings?.location as any)?.state,
     ].filter(Boolean),
 
     // Ícones
