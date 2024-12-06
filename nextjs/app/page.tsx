@@ -11,7 +11,7 @@ async function getLatestResults() {
     GAMES.map(async (game) => {
       try {
         const result = await redis.get(`lottery:${game}:latest`);
-        return { game, result };
+        return { game, result: JSON.parse(result as any) };
       } catch (error) {
         console.error(`Error fetching ${game} results:`, error);
         return { game, result: null };
@@ -23,7 +23,7 @@ async function getLatestResults() {
 }
 
 export default async function Page() {
-  const { data: settings } = await sanityFetch<typeof settingsQuery>({
+  const { data: settings } = await sanityFetch<string>({
     query: settingsQuery,
     stega: false,
   });
@@ -60,7 +60,13 @@ export default async function Page() {
           <div className="grid md:grid-cols-2 gap-6">
             {Array.isArray(results) &&
               results.map(
-                ({ game, result }) =>
+                ({
+                  game,
+                  result,
+                }: {
+                  game: string;
+                  result: { numero: string };
+                }) =>
                   result && (
                     <GameResult
                       key={`${game}-${result.numero}`}

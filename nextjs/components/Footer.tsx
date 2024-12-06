@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { Settings } from '@/sanity.types';
 
-export default function Footer({ settings }) {
+export default function Footer({ settings }: { settings?: Settings }) {
   const currentYear = new Date().getFullYear();
 
   const copyOnClick = (e: React.MouseEvent<HTMLSpanElement>) => {

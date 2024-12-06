@@ -14,6 +14,7 @@ import { sanityFetch, SanityLive } from '@/lib/sanity/live';
 import { settingsQuery } from '@/lib/sanity/queries';
 import { resolveOpenGraphImage } from '@/lib/sanity/utils';
 import { handleError } from './client-utils';
+import { Settings } from '@/sanity.types';
 
 export async function generateMetadata(): Promise<Metadata> {
   const { data: settings } = await sanityFetch<typeof settingsQuery>({
@@ -107,10 +108,12 @@ export default async function RootLayout({
 }) {
   const { isEnabled: isDraftMode } = await draftMode();
 
-  const { data: settings } = await sanityFetch<typeof settingsQuery>({
+  const { data } = await sanityFetch<typeof settingsQuery>({
     query: settingsQuery,
     stega: false,
   });
+
+  const settings = data as unknown as Settings;
 
   return (
     <html lang="pt-BR" suppressHydrationWarning>

@@ -1,6 +1,7 @@
 // app/api/loteria/[game]/route.ts
 import { NextResponse } from 'next/server';
 import redis from '@/services/redis'
+import { GameType } from '@/types/loteria';
 
 async function fetchFromCaixa(game: string, contestNumber?: number) {
   const url = `https://servicebus2.caixa.gov.br/portaldeloterias/api/${game}/${contestNumber || ''}`;
@@ -21,16 +22,17 @@ async function fetchFromCaixa(game: string, contestNumber?: number) {
 
 export async function GET(
   request: Request,
-  { params }: { params: { game: string } }
+  { params }: { params: Promise<{ game: GameType }> }
 ) {
+  const { game } = await params;
   const { searchParams } = new URL(request.url);
   const contestNumber = searchParams.get('contest');
 
   try {
     // Determine the Redis key
     const key = contestNumber 
-      ? `lottery:${params.game}:${contestNumber}`
-      : `lottery:${params.game}:latest`;
+      ? `lottery:${game}:${contestNumber}`
+      : `lottery:${game}:latest`;
 
     // Try to get from Redis first
     const cachedResult = await redis.get(key);
@@ -40,7 +42,7 @@ export async function GET(
 
     // If not in cache, fetch from Caixa API
     const result = await fetchFromCaixa(
-      params.game,
+      game,
       contestNumber ? parseInt(contestNumber) : undefined
     );
 
