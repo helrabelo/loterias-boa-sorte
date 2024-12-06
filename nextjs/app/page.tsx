@@ -15,14 +15,16 @@ interface LotteryResult {
   result: any;
 }
 
-type FetchResult = {
-  game: GameType;
-  result: any;
-} | {
-  game: GameType;
-  result: null;
-  error: unknown;
-};
+type FetchResult =
+  | {
+      game: GameType;
+      result: any;
+    }
+  | {
+      game: GameType;
+      result: null;
+      error: unknown;
+    };
 
 async function getLatestResults() {
   try {
@@ -32,22 +34,23 @@ async function getLatestResults() {
           const result = await redis.get(`lottery:${game}:latest`);
           return {
             game: game as GameType,
-            result: result ? JSON.parse(result as string) : null
+            result: result || null,
           } satisfies LotteryResult;
         } catch (error) {
           console.error(`Error fetching ${game} results:`, error);
           return {
             game: game as GameType,
             result: null,
-            error
+            error,
           } satisfies FetchResult;
         }
       })
     );
 
     // Filter out failed requests and null results
-    return results.filter((result): result is LotteryResult => 
-      result.result !== null && !('error' in result)
+    return results.filter(
+      (result): result is LotteryResult =>
+        result.result !== null && !('error' in result)
     );
   } catch (error) {
     console.error('Error fetching lottery results:', error);
