@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 
-import ResolvedLink from "@/app/components/ResolvedLink";
-import { CallToAction } from "@/sanity.types";
+import ResolvedLink from "@/components/ResolvedLink";
+import { CallToAction } from "@/types/sanity";
 
 type CtaProps = {
   block: CallToAction;

@@ -1,7 +1,7 @@
 import React from "react";
 
-import Cta from "@/app/components/Cta";
-import Info from "@/app/components/InfoSection";
+import Cta from "@/components/Cta";
+import Info from "@/components/InfoSection";
 
 type BlocksType = {
   [key: string]: React.FC<any>;

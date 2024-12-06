@@ -1,34 +1,17 @@
+import { description } from './../../../nextjs/lib/sanity/demo';
 import {CogIcon, NumberIcon, ComposeIcon} from '@sanity/icons'
 
 export const structure = (S) =>
   S.list()
     .title('Website Content')
     .items([
-      // Jogos Futuros
+      // Jogos e Bolões
       S.listItem()
-        .title('Jogos Futuros')
+        .title('Jogos e Bolões')
         .icon(ComposeIcon)
         .schemaType('jogoFuturo')
         .child(S.documentTypeList('jogoFuturo')),
 
-      // Resultados da Loteria
-      S.listItem()
-        .title('Resultados')
-        .icon(NumberIcon)
-        .schemaType('resultadoLoteria')
-        .child(S.documentTypeList('resultadoLoteria')),
-      // Outros tipos de documento
-      ...S.documentTypeListItems().filter(
-        (listItem) =>
-          ![
-            'settings',
-            'assist.instruction.context',
-            'resultadoLoteria',
-            'jogoFuturo',
-            'configuracoesJogo',
-          ].includes(listItem.getId()),
-      ),
-      // Configurações dos Jogos
       // Configurações dos Jogos
       S.listItem()
         .title('Configurações dos Jogos')
@@ -42,7 +25,7 @@ export const structure = (S) =>
         ),
       // Configurações do site
       S.listItem()
-        .title('Site Settings')
+        .title('Configurações do Site')
         .child(S.document().schemaType('settings').documentId('siteSettings'))
         .icon(CogIcon),
     ])

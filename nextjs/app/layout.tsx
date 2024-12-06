@@ -6,13 +6,13 @@ import { draftMode } from 'next/headers';
 import { VisualEditing } from 'next-sanity';
 import { Toaster } from 'sonner';
 
-import DraftModeToast from '@/app/components/DraftModeToast';
-import Footer from '@/app/components/Footer';
-import Header from '@/app/components/Header';
-import * as demo from '@/sanity/lib/demo';
-import { sanityFetch, SanityLive } from '@/sanity/lib/live';
-import { settingsQuery } from '@/sanity/lib/queries';
-import { resolveOpenGraphImage } from '@/sanity/lib/utils';
+import DraftModeToast from '@/components/DraftModeToast';
+import Footer from '@/components/Footer';
+import Header from '@/components/Header';
+import * as demo from '@/lib/sanity/demo';
+import { sanityFetch, SanityLive } from '@/lib/sanity/live';
+import { settingsQuery } from '@/lib/sanity/queries';
+import { resolveOpenGraphImage } from '@/lib/sanity/utils';
 import { handleError } from './client-utils';
 
 export async function generateMetadata(): Promise<Metadata> {

@@ -3,7 +3,7 @@ import {defineField, defineType} from 'sanity'
 
 export const futureGame = defineType({
   name: 'jogoFuturo',
-  title: 'Jogos Futuros',
+  title: 'Jogos e Bolões',
   icon: TagIcon,
   type: 'document',
   fields: [
