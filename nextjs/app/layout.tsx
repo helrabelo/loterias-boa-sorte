@@ -107,6 +107,11 @@ export default async function RootLayout({
 }) {
   const { isEnabled: isDraftMode } = await draftMode();
 
+  const { data: settings } = await sanityFetch<typeof settingsQuery>({
+    query: settingsQuery,
+    stega: false,
+  });
+
   return (
     <html lang="pt-BR" suppressHydrationWarning>
       <head />
@@ -121,7 +126,7 @@ export default async function RootLayout({
         <SanityLive onError={handleError} />
         <Header />
         <main className="flex-1 pt-24">{children}</main>
-        <Footer />
+        <Footer settings={settings} />
         <SpeedInsights />
       </body>
     </html>

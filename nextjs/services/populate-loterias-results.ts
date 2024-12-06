@@ -1,274 +1,92 @@
+// services/populate-loterias-results.ts
 import redis from '@/services/redis';
+import { GameType } from '@/types/loteria';
 
-import {
-  BaseResult,
-  DiaSorte,
-  DuplaSena,
-  Federal,
-  GameType,
-  LotteryResult,
-  SuperSete,
-  TimeMania,
-} from '@/types/loteria';
-
-const latestResults: Record<GameType, Partial<LotteryResult>> = {
-  maismilionaria: {
-    loteria: 'maismilionaria',
-    numeroConcurso: 204,
-    data: '2024-12-04',
-    dezenas: ['07', '09', '11', '15', '17', '42'],
-    acumulou: true,
-    dataProximoConcurso: '2024-12-07',
-    valorEstimadoProximoConcurso: 27500000,
-  },
-  megasena: {
-    loteria: 'megasena',
-    numeroConcurso: 2804,
-    data: '2024-12-05',
-    dezenas: ['14', '24', '25', '31', '33', '60'],
-    acumulou: true,
-    dataProximoConcurso: '2024-12-07',
-    valorEstimadoProximoConcurso: 27000000,
-  },
-  lotofacil: {
-    loteria: 'lotofacil',
-    numeroConcurso: 3261,
-    data: '2024-12-05',
-    dezenas: [
-      '03',
-      '04',
-      '05',
-      '06',
-      '07',
-      '08',
-      '10',
-      '11',
-      '12',
-      '14',
-      '15',
-      '16',
-      '21',
-      '24',
-      '25',
-    ],
-    acumulou: false,
-    dataProximoConcurso: '2024-12-06',
-    valorEstimadoProximoConcurso: 1700000,
-  },
-  quina: {
-    loteria: 'quina',
-    numeroConcurso: 6599,
-    data: '2024-12-05',
-    dezenas: ['18', '21', '29', '63', '78'],
-    acumulou: false,
-    dataProximoConcurso: '2024-12-06',
-    valorEstimadoProximoConcurso: 600000,
-  },
-  timemania: {
-    loteria: 'timemania',
-    numeroConcurso: 2176,
-    data: '2024-12-05',
-    dezenas: ['05', '09', '31', '41', '49', '57', '59'],
-    acumulou: true,
-    dataProximoConcurso: '2024-12-07',
-    valorEstimadoProximoConcurso: 13800000,
-    timeCoracao: 'OPERARIO /PR',
-  } as TimeMania,
-  duplasena: {
-    loteria: 'duplasena',
-    numeroConcurso: 2747,
-    data: '2024-12-04',
-    dezenas: ['13', '25', '31', '36', '43', '44'],
-    dezenas2: ['18', '19', '20', '23', '30', '43'],
-    acumulou: true,
-    dataProximoConcurso: '2024-12-06',
-    valorEstimadoProximoConcurso: 850000,
-  } as DuplaSena,
-  diasorte: {
-    loteria: 'diasorte',
-    numeroConcurso: 997,
-    data: '2024-12-05',
-    dezenas: ['02', '03', '07', '17', '19', '21', '29'],
-    acumulou: true,
-    dataProximoConcurso: '2024-12-07',
-    valorEstimadoProximoConcurso: 550000,
-    mesSorte: 'Outubro',
-  } as DiaSorte,
-  supersete: {
-    loteria: 'supersete',
-    numeroConcurso: 629,
-    data: '2024-12-04',
-    dezenas: [],
-    colunas: {
-      1: '7',
-      2: '7',
-      3: '1',
-      4: '7',
-      5: '5',
-      6: '9',
-      7: '4',
-    },
-    acumulou: true,
-    dataProximoConcurso: '2024-12-06',
-    valorEstimadoProximoConcurso: 150000,
-  } as SuperSete,
-  loteca: {
-    loteria: 'loteca',
-    numeroConcurso: 950,
-    data: '2024-12-04',
-    dezenas: [],
-    acumulou: true,
-    dataProximoConcurso: '2024-12-06',
-    valorEstimadoProximoConcurso: 300000,
-  } as BaseResult,
-  federal: {
-    loteria: 'federal',
-    numeroConcurso: 5562,
-    data: '2024-12-04',
-    dezenas: [],
-    acumulou: false,
-    dataProximoConcurso: '2024-12-06',
-    valorEstimadoProximoConcurso: 5000000,
-    premios: [
-      { bilhete: '1', valor: 5000000 },
-      { bilhete: '2', valor: 30000 },
-      { bilhete: '3', valor: 30000 },
-      { bilhete: '4', valor: 30000 },
-      { bilhete: '5', valor: 30000 },
-    ],
-  } as Federal,
-  lotomania: {
-    loteria: 'lotomania',
-    numeroConcurso: 2253,
-    data: '2024-12-04',
-    dezenas: [
-      '01',
-      '02',
-      '03',
-      '04',
-      '05',
-      '06',
-      '07',
-      '08',
-      '09',
-      '10',
-      '11',
-      '12',
-      '13',
-      '14',
-      '15',
-      '16',
-      '17',
-      '18',
-      '19',
-      '20',
-      '21',
-      '22',
-      '23',
-      '24',
-      '25',
-      '26',
-      '27',
-      '28',
-      '29',
-      '30',
-      '31',
-      '32',
-      '33',
-      '34',
-      '35',
-      '36',
-      '37',
-      '38',
-      '39',
-      '40',
-      '41',
-      '42',
-      '43',
-      '44',
-      '45',
-      '46',
-      '47',
-      '48',
-      '49',
-      '50',
-      '51',
-      '52',
-      '53',
-      '54',
-      '55',
-      '56',
-      '57',
-      '58',
-      '59',
-      '60',
-      '61',
-      '62',
-      '63',
-      '64',
-      '65',
-      '66',
-      '67',
-      '68',
-      '69',
-      '70',
-      '71',
-      '72',
-      '73',
-      '74',
-      '75',
-      '76',
-      '77',
-      '78',
-      '79',
-      '80',
-      '81',
-      '82',
-      '83',
-      '84',
-      '85',
-      '86',
-      '87',
-      '88',
-      '89',
-      '90',
-      '91',
-      '92',
-      '93',
-      '94',
-      '95',
-      '96',
-      '97',
-      '98',
-      '99',
-      '100',
-    ],
-    acumulou: true,
-    dataProximoConcurso: '2024-12-07',
-    valorEstimadoProximoConcurso: 2000000,
-  } as BaseResult,
+const latestResults: Record<GameType, { numeroConcurso: number }> = {
+  maismilionaria: { numeroConcurso: 204 },
+  megasena: { numeroConcurso: 2804 },
+  lotofacil: { numeroConcurso: 3261 },
+  quina: { numeroConcurso: 6599 },
+  timemania: { numeroConcurso: 2176 },
+  duplasena: { numeroConcurso: 2747 },
+  diasorte: { numeroConcurso: 997 },
+  supersete: { numeroConcurso: 629 },
+  loteca: { numeroConcurso: 950 },
+  federal: { numeroConcurso: 5562 },
+  lotomania: { numeroConcurso: 2253 },
 };
+
+async function fetchResult(game: GameType, contestNumber: number) {
+  const url = `https://servicebus2.caixa.gov.br/portaldeloterias/api/${game}/${contestNumber}`;
+
+  const response = await fetch(url, {
+    headers: {
+      accept: 'application/json',
+      origin: 'https://loterias.caixa.gov.br',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch ${game} contest ${contestNumber}`);
+  }
+
+  return response.json();
+}
+
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export async function populateLatestResults() {
   try {
-    const operations = Object.entries(latestResults).map(([game, result]) => {
-      const key = `lottery:${game}:${result.numeroConcurso}`;
-      const latestKey = `lottery:${game}:latest`;
+    const results = [];
 
-      return Promise.all([
-        // Store the specific contest result permanently
-        redis.set(key, result),
-        // Update the latest pointer
-        redis.set(latestKey, result, { ex: 3600 }),
-        // Store by date for lookups
-        redis.set(`lottery:${game}:date:${result.data}`, result),
-      ]);
-    });
+    // Fetch results sequentially with delay to avoid rate limiting
+    for (const [game, info] of Object.entries(latestResults)) {
+      try {
+        console.log(`Fetching ${game} contest ${info.numeroConcurso}`);
 
-    await Promise.all(operations);
-    console.log('Successfully populated latest results');
+        const result = await fetchResult(game as GameType, info.numeroConcurso);
 
-    return true;
+        const key = `lottery:${game}:${info.numeroConcurso}`;
+        const latestKey = `lottery:${game}:latest`;
+        const dateKey = `lottery:${game}:date:${result.dataApuracao?.split('/').reverse().join('-')}`;
+
+        // Store all three versions
+        await Promise.all([
+          redis.set(key, result),
+          redis.set(latestKey, result),
+          result.dataApuracao && redis.set(dateKey, result),
+        ]);
+
+        results.push({ game, success: true });
+
+        // Add delay between requests to avoid rate limiting
+        await delay(1000); // 1 second delay
+      } catch (error) {
+        console.error(`Failed to fetch/store ${game}:`, error);
+        results.push({ game, success: false, error });
+      }
+    }
+
+    const successCount = results.filter((r) => r.success).length;
+    const failureCount = results.filter((r) => !r.success).length;
+
+    console.log(`
+      Population complete:
+      - Successful: ${successCount}
+      - Failed: ${failureCount}
+      ${failureCount > 0 ? '\nFailed games:' : ''}
+      ${results
+        .filter((r) => !r.success)
+        .map((r) => r.game)
+        .join(', ')}
+    `);
+
+    return {
+      success: true,
+      results,
+      successCount,
+      failureCount,
+    };
   } catch (error) {
     console.error('Failed to populate results:', error);
     throw error;
