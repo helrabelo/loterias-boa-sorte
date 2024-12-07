@@ -2,7 +2,12 @@ import type { Config } from 'tailwindcss';
 import typography from '@tailwindcss/typography';
 
 export default {
-  content: ['./components/**/*.{ts,tsx}', './app/**/*.{ts,tsx}', './sanity/**/*.{ts,tsx}'],
+  content: [
+    './components/**/*.{ts,tsx}',
+    './const/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './sanity/**/*.{ts,tsx}',
+  ],
   theme: {
     container: {
       center: true,
@@ -163,7 +168,6 @@ export default {
             },
           },
         },
-        // Cores dos Jogos da Caixa
         lottery: {
           'mega-sena': '#00a651',
           'mega-virada': '#00ab69',
@@ -173,18 +177,18 @@ export default {
           lotomania: '#e67200',
           timemania: {
             DEFAULT: '#fff200',
-            text: '#038141', // Para os textos especiais
+            text: '#038141',
           },
           'dupla-sena': '#a62b43',
           loteca: '#eb212c',
           lotogol: '#2bbde7',
           'dia-de-sorte': {
             DEFAULT: '#e3c021',
-            text: '#7e6906', // Para os textos especiais
+            text: '#7e6906',
           },
           'super-sete': {
             DEFAULT: '#bed730',
-            text: '#038141', // Para os textos especiais
+            text: '#038141',
           },
         },
       },
