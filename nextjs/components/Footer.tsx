@@ -3,14 +3,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Settings } from '@/sanity.types';
+import { copyToClipboardOnClick } from '@/utils/copyOnClick';
 
 export default function Footer({ settings }: { settings?: Settings }) {
   const currentYear = new Date().getFullYear();
-
-  const copyOnClick = (e: React.MouseEvent<HTMLSpanElement>) => {
-    e.preventDefault();
-    navigator.clipboard.writeText(settings?.contactInfo?.email || '');
-  };
 
   return (
     <footer className="bg-semantic-primary-50 border-t border-semantic-primary-100">
@@ -118,7 +114,11 @@ export default function Footer({ settings }: { settings?: Settings }) {
                     <path d="M489.149 200.97l-58.379-58.377h-37.706c-13.838 0-27.394 5.635-37.185 15.426l-77.068 77.069c-7.202 7.18-16.623 10.77-26.067 10.77-9.443 0-18.885-3.59-26.066-10.77l-76.785-76.785c-9.792-9.814-23.346-15.427-37.207-15.427h-31.81L22.78 200.97c-30.374 30.375-30.374 79.614 0 109.988l58.095 58.074 31.81.021c13.86 0 27.416-5.635 37.208-15.426l76.784-76.764c13.925-13.947 38.208-13.924 52.133-.02l77.068 77.066c9.791 9.792 23.346 15.405 37.185 15.405h37.706l58.379-58.356c30.374-30.374 30.374-79.613 0-109.988zm-362.19 129.724c-3.763 3.786-8.942 5.917-14.273 5.917H94.302l-48.59-48.564c-17.689-17.69-17.689-46.476 0-64.143L94.3 175.296h18.385c5.331 0 10.51 2.154 14.295 5.918l74.74 74.74-74.761 74.74zm339.257-42.647l-48.848 48.87h-24.305c-5.309 0-10.508-2.155-14.251-5.92l-75.023-75.043 75.023-75.023c3.743-3.764 8.942-5.918 14.252-5.918h24.304l48.847 48.891c8.573 8.551 13.273 19.93 13.273 32.05 0 12.141-4.7 23.52-13.273 32.093z" />
                   </g>
                 </svg>
-                <span onClick={copyOnClick}>
+                <span
+                  onClick={copyToClipboardOnClick(
+                    settings?.contactInfo?.email ?? ''
+                  )}
+                >
                   {settings?.contactInfo?.email}
                 </span>
               </li>

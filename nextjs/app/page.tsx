@@ -1,8 +1,8 @@
 // app/(resultados)/page.tsx
 import { sanityFetch } from '@/lib/sanity/live';
 import { settingsQuery } from '@/lib/sanity/queries';
-import Image from 'next/image';
 import { GameResult } from '@/components/GameResult';
+import Hero from '@/components/Homepage/Hero';
 import { GameType } from '@/types/loteria';
 import redis from '@/services/redis';
 import { GAME_TYPES } from '@/const/games';
@@ -72,26 +72,7 @@ export default async function Page() {
         <div className="grid lg:grid-cols-4 gap-6">
           {/* Sidebar */}
           <div className="lg:col-span-1">
-            <div className="p-6 rounded-lg border bg-white shadow-sm">
-              <div className="flex flex-col items-center text-center gap-4">
-                <Image
-                  src="/images/logo-caixa.png"
-                  alt="Loterias Caixa"
-                  width={90}
-                  height={90}
-                  priority
-                />
-                <span className="font-caixa font-bold text-2xl leading-tight text-semantic-primary">
-                  Boa Sorte
-                  <br /> Loterias
-                </span>
-                {settings?.messages?.footer && (
-                  <p className="text-sm text-gray-600">
-                    {settings.messages.footer}
-                  </p>
-                )}
-              </div>
-            </div>
+            <Hero settings={settings} />
           </div>
 
           {/* Results Grid */}
