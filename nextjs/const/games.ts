@@ -2,7 +2,6 @@ import { GameType } from '@/types/loteria';
 
 export const GAME_TYPES: GameType[] = [
   'megasena',
-  'megavirada',
   'lotofacil',
   'quina',
   'lotomania',
@@ -17,7 +16,6 @@ export const GAME_TYPES: GameType[] = [
 
 export const GAMES_SETTINGS: Record<GameType, { title: string }> = {
   megasena: { title: 'Mega-Sena' },
-  megavirada: { title: 'Mega da Virada' },
   lotofacil: { title: 'Lotofácil' },
   quina: { title: 'Quina' },
   lotomania: { title: 'Lotomania' },

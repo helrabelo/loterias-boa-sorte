@@ -8,8 +8,58 @@ interface GameResultProps {
   data: any;
 }
 
+function handleContent(game: GameType, data: any) {
+  switch (game) {
+    case 'duplasena':
+      return (
+        <div className="space-y-4">
+          <div>
+            <div className="text-sm text-gray-500 mb-2">1º Sorteio</div>
+            <div className="flex flex-wrap gap-2">
+              {data.listaDezenas.map((numero: string) => (
+                <NumberBall key={numero} number={numero} game={game} />
+              ))}
+            </div>
+          </div>
+          <div>
+            <div className="text-sm text-gray-500 mb-2">2º Sorteio</div>
+            <div className="flex flex-wrap gap-2">
+              {data.listaDezenasSegundoSorteio?.map((numero: string) => (
+                <NumberBall key={numero} number={numero} game={game} />
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    case 'supersete':
+      return (
+        <div className="grid grid-cols-7 gap-2">
+          {data.dezenasSorteadasOrdemSorteio.map(
+            (numero: string, index: number) => (
+              <div key={index}>
+                <div className="text-xs text-gray-500 text-center mb-1">
+                  Col {index + 1}
+                </div>
+                <NumberBall number={numero} game={game} />
+              </div>
+            )
+          )}
+        </div>
+      );
+    default:
+      return (
+        <div className="flex flex-wrap gap-2">
+          {data.listaDezenas?.map((numero: string) => (
+            <NumberBall key={numero} number={numero} game={game} />
+          ))}
+        </div>
+      );
+  }
+}
+
 export function GameResult({ game, data }: GameResultProps) {
   const theme = gameThemes[game as keyof typeof gameThemes];
+
   return (
     <BaseCard game={game}>
       <div className="space-y-4">
@@ -25,46 +75,7 @@ export function GameResult({ game, data }: GameResultProps) {
           </div>
         </div>
 
-        {/* Numbers Section */}
-        {game === 'duplasena' ? (
-          <div className="space-y-4">
-            <div>
-              <div className="text-sm text-gray-500 mb-2">1º Sorteio</div>
-              <div className="flex flex-wrap gap-2">
-                {data.listaDezenas.map((numero: string) => (
-                  <NumberBall key={numero} number={numero} game={game} />
-                ))}
-              </div>
-            </div>
-            <div>
-              <div className="text-sm text-gray-500 mb-2">2º Sorteio</div>
-              <div className="flex flex-wrap gap-2">
-                {data.listaDezenasSegundoSorteio?.map((numero: string) => (
-                  <NumberBall key={numero} number={numero} game={game} />
-                ))}
-              </div>
-            </div>
-          </div>
-        ) : game === 'supersete' ? (
-          <div className="grid grid-cols-7 gap-2">
-            {data.dezenasSorteadasOrdemSorteio.map(
-              (numero: string, index: number) => (
-                <div key={index}>
-                  <div className="text-xs text-gray-500 text-center mb-1">
-                    Col {index + 1}
-                  </div>
-                  <NumberBall number={numero} game={game} />
-                </div>
-              )
-            )}
-          </div>
-        ) : (
-          <div className="flex flex-wrap gap-2">
-            {data.listaDezenas?.map((numero: string) => (
-              <NumberBall key={numero} number={numero} game={game} />
-            ))}
-          </div>
-        )}
+        {handleContent(game, data)}
 
         {/* Game Specific Sections */}
         {game === 'timemania' && data.nomeTimeCoracao && (

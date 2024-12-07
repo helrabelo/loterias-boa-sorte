@@ -190,6 +190,7 @@ export default {
             DEFAULT: '#bed730',
             text: '#038141',
           },
+          federal: '#058ce1',
         },
       },
       fontFamily: {
