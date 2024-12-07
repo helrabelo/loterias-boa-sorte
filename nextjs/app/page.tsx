@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { GameResult } from '@/components/GameResult';
 import { GameType } from '@/types/loteria';
 import redis from '@/services/redis';
-import GAMES from '@/const/games';
+import { GAME_TYPES } from '@/const/games';
 
 // Mark the page as dynamic
 export const dynamic = 'force-dynamic';
@@ -29,7 +29,7 @@ type FetchResult =
 async function getLatestResults() {
   try {
     const results = await Promise.all(
-      GAMES.map(async (game) => {
+      GAME_TYPES.map(async (game) => {
         try {
           const result = await redis.get(`lottery:${game}:latest`);
           return {

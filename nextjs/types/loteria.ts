@@ -1,5 +1,6 @@
 export type GameType = 
   | 'megasena' 
+  | 'megavirada'
   | 'lotofacil' 
   | 'quina' 
   | 'lotomania'

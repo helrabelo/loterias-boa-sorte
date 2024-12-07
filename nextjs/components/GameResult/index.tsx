@@ -1,6 +1,7 @@
 import { GameType } from '@/types/loteria';
 import { BaseCard } from './BaseCard';
 import { NumberBall } from './Number';
+import { gameThemes } from '@/const/games';
 
 interface GameResultProps {
   game: GameType;
@@ -8,6 +9,7 @@ interface GameResultProps {
 }
 
 export function GameResult({ game, data }: GameResultProps) {
+  const theme = gameThemes[game as keyof typeof gameThemes];
   return (
     <BaseCard game={game}>
       <div className="space-y-4">
