@@ -3,7 +3,7 @@ name: Update Lottery Results
 on:
   schedule:
     - cron: '0 * * * *'  # Run every hour
-  workflow_dispatch:      # Allows manual trigger from GitHub UI
+  workflow_dispatch:      # Allows manual trigger
 
 jobs:
   update-results:
@@ -11,4 +11,9 @@ jobs:
     steps:
       - name: Trigger API endpoint
         run: |
-          curl -X POST https://loteriasboasorte.com.br/api/loteria/latest
+          curl -X POST \
+          -H "accept: application/json" \
+          -H "origin: https://loterias.caixa.gov.br" \
+          -H "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" \
+          -H "referer: https://loterias.caixa.gov.br/" \
+          https://loteriasboasorte.com.br/api/loteria/latest
