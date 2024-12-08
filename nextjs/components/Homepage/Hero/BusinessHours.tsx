@@ -54,10 +54,10 @@ const BusinessHours = ({ hours }: BusinessHoursProps) => {
 
       <div className="space-y-1">
         {hours.map(
-          (hour) =>
+          (hour, index) =>
             hour.days && (
               <div
-                key={hour._key}
+                key={index}
                 className={`flex justify-between text-sm ${
                   isCurrentDayType(hour.days)
                     ? 'text-semantic-primary font-semibold'

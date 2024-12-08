@@ -17,9 +17,10 @@ function handleContent(game: GameType, data: any) {
           <div>
             <div className="text-sm text-gray-500 mb-2">1º Sorteio</div>
             <div className="flex flex-wrap gap-2">
-              {data.listaDezenas.map((numero: string) => (
-                <NumberBall key={numero} number={numero} game={game} />
-              ))}
+              {Array.isArray(data.listaDezenas) &&
+                data.listaDezenas.map((numero: string) => (
+                  <NumberBall key={numero} number={numero} game={game} />
+                ))}
             </div>
           </div>
           <div>
@@ -35,22 +36,23 @@ function handleContent(game: GameType, data: any) {
     case 'supersete':
       return (
         <div className="grid grid-cols-7 gap-2">
-          {data.dezenasSorteadasOrdemSorteio.map(
-            (numero: string, index: number) => (
-              <div key={index}>
-                <div className="text-xs text-gray-500 text-center mb-1">
-                  Col {index + 1}
+          {Array.isArray(data.dezenasSorteadasOrdemSorteio) &&
+            data.dezenasSorteadasOrdemSorteio.map(
+              (numero: string, index: number) => (
+                <div key={index}>
+                  <div className="text-xs text-gray-500 text-center mb-1">
+                    Col {index + 1}
+                  </div>
+                  <NumberBall number={numero} game={game} />
                 </div>
-                <NumberBall number={numero} game={game} />
-              </div>
-            )
-          )}
+              )
+            )}
         </div>
       );
     default:
       return (
         <div className="flex flex-wrap gap-2">
-          {data.listaDezenas?.map((numero: string) => (
+          {data.dezenas?.map((numero: string) => (
             <NumberBall key={numero} number={numero} game={game} />
           ))}
         </div>

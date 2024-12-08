@@ -66,6 +66,8 @@ export default async function Page() {
 
   const results = await getLatestResults();
 
+  console.log({ results });
+
   return (
     <>
       <div className="container my-4 mx-auto px-4">
@@ -77,7 +79,9 @@ export default async function Page() {
 
           {/* Results Grid */}
           <div className="lg:col-span-2">
-            <h1 className="text-2xl font-bold mb-6 text-semantic-primary">Últimos Resultados</h1>
+            <h1 className="text-2xl font-bold mb-6 text-semantic-primary">
+              Últimos Resultados
+            </h1>
             {results.length > 0 ? (
               <div className="grid md:grid-cols-2 gap-6">
                 {results.map(({ game, result }) => (
