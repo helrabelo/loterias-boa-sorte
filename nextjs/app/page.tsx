@@ -69,15 +69,15 @@ export default async function Page() {
   return (
     <>
       <div className="container my-4 mx-auto px-4">
-        <div className="grid lg:grid-cols-4 gap-6">
+        <div className="grid lg:grid-cols-3 gap-6">
           {/* Sidebar */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 relative">
             <Hero settings={settings} />
           </div>
 
           {/* Results Grid */}
-          <div className="lg:col-span-3">
-            <h1 className="text-2xl font-bold mb-6">Últimos Resultados</h1>
+          <div className="lg:col-span-2">
+            <h1 className="text-2xl font-bold mb-6 text-semantic-primary">Últimos Resultados</h1>
             {results.length > 0 ? (
               <div className="grid md:grid-cols-2 gap-6">
                 {results.map(({ game, result }) => (

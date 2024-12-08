@@ -1,6 +1,7 @@
 import { GameType } from '@/types/loteria';
 import { BaseCard } from './BaseCard';
 import { NumberBall } from './Number';
+import { Clover } from './Clover';
 import { gameThemes } from '@/const/games';
 
 interface GameResultProps {
@@ -92,6 +93,16 @@ export function GameResult({ game, data }: GameResultProps) {
           </div>
         )}
 
+        {game === 'maismilionaria' && (
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-500">Trevos Sorteados:</span>
+            <div className="flex gap-2">
+              <Clover number={data.trevosSorteados[0]} game={game} />
+              <Clover number={data.trevosSorteados[1]} game={game} />
+            </div>
+          </div>
+        )}
+
         {/* Winners & Prize */}
         <div>
           {data.listaRateioPremio?.map((premio: any, index: number) => (
@@ -114,24 +125,27 @@ export function GameResult({ game, data }: GameResultProps) {
 
         {/* Accumulation */}
         {data.acumulado && (
-          <div className={`mt-4 text-center font-bold text-lg color-${game}`}>
+          <div className="mt-4 text-center font-bold text-xl md:text-2xl text-semantic-primary">
             ACUMULOU!
           </div>
         )}
 
         {/* Next Prize */}
-        <div className="mt-4">
+        <div className="mt-4 text-center">
           <div className="text-sm text-gray-500">
             Estimativa de prêmio do próximo concurso:
           </div>
-          <div className="font-bold text-lg">
+          <div className="font-bold text-lg text-semantic-primary">
             {data.valorEstimadoProximoConcurso.toLocaleString('pt-BR', {
               style: 'currency',
               currency: 'BRL',
             })}
           </div>
           <div className="text-sm text-gray-500">
-            Sorteio em {data.dataProximoConcurso}
+            Próximo sorteio:{' '}
+            <span className="underline underline-offset-4">
+              {data.dataProximoConcurso}
+            </span>
           </div>
         </div>
       </div>

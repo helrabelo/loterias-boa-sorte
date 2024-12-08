@@ -10,13 +10,13 @@ export function BaseCard({ game, children }: BaseCardProps) {
   const theme = gameThemes[game as keyof typeof gameThemes];
   // return;
   return (
-    <div className="rounded-lg border bg-white shadow-sm overflow-hidden">
+    <div className="rounded-lg border bg-white shadow-sm overflow-hidden flex flex-col">
       <div className={`p-4 ${theme?.bg}`}>
         <h3 className={`font-bold text-lg ${theme?.text} capitalize`}>
           {GAMES_SETTINGS[game].title}
         </h3>
       </div>
-      <div className="p-4">{children}</div>
+      <div className="p-4 grow flex flex-col">{children}</div>
     </div>
   );
 }
