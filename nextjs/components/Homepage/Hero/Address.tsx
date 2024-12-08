@@ -21,7 +21,7 @@ const AddressInfo = ({ address }: { address: Address }) => {
     if (!showMap) return;
     
     const fullAddress = `${address.street}, ${address.number} - ${address.city}`;
-    const response = await fetch(`/api/maps-embed?address=${encodeURIComponent(fullAddress)}`);
+    const response = await fetch(`/api/maps?address=${encodeURIComponent(fullAddress)}`);
     const data = await response.json();
     setMapUrl(data.url);
   };

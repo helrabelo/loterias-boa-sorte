@@ -21,8 +21,7 @@ const Hero = ({ settings }: { settings: Settings }) => {
           priority
         />
         <span className="font-caixa font-bold text-2xl leading-tight text-semantic-primary">
-          Boa Sorte
-          <br /> Loterias
+          Loterias Boa Sorte Aldeota
         </span>
 
         {settings?.messages?.footer && (
