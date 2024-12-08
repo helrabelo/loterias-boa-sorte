@@ -1,7 +1,6 @@
 import React from "react";
 
 import Cta from "@/components/Cta";
-import Info from "@/components/InfoSection";
 
 type BlocksType = {
   [key: string]: React.FC<any>;
@@ -19,7 +18,6 @@ type BlockProps = {
 
 const Blocks: BlocksType = {
   callToAction: Cta,
-  infoSection: Info,
 };
 
 export default function BlockRenderer({ block, index }: BlockProps) {
