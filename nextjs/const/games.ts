@@ -79,6 +79,11 @@ export const gameThemes = {
     text: 'text-white',
     border: 'border-lottery-lotogol',
   },
+  diasorte: {
+    bg: 'bg-lottery-dia-de-sorte',
+    text: 'text-lottery-dia-de-sorte-text',
+    border: 'border-lottery-dia-de-sorte',
+  },
   diadesorte: {
     bg: 'bg-lottery-dia-de-sorte',
     text: 'text-lottery-dia-de-sorte-text',

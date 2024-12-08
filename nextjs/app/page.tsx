@@ -5,7 +5,8 @@ import { GameResult } from '@/components/GameResult';
 import Hero from '@/components/Homepage/Hero';
 import { GameType } from '@/types/loteria';
 import redis from '@/services/redis';
-import { GAME_TYPES } from '@/const/games';
+import { GAME_TYPES, GAMES_SETTINGS } from '@/const/games';
+import NextResults from '@/components/Homepage/NextResults';
 
 // Mark the page as dynamic
 export const dynamic = 'force-dynamic';
@@ -66,12 +67,10 @@ export default async function Page() {
 
   const results = await getLatestResults();
 
-  console.log({ results });
-
   return (
     <>
       <div className="container my-4 mx-auto px-4">
-        <div className="grid lg:grid-cols-3 gap-6">
+        <div className="grid lg:grid-cols-4 gap-6">
           {/* Sidebar */}
           <div className="lg:col-span-1 relative">
             <Hero settings={settings} />
@@ -100,6 +99,15 @@ export default async function Page() {
                 </p>
               </div>
             )}
+          </div>
+
+          {/* Next Contests And Other Pages */}
+          <div className="lg:col-span-1 h-full">
+            <div className="relative h-full">
+              <div className="lg:sticky lg:top-[96px]">
+                <NextResults results={results} />
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -169,8 +169,10 @@ export default {
           },
         },
         lottery: {
+          megasena: '#00a651',
           'mega-sena': '#00a651',
           'mega-virada': '#00ab69',
+          maismilionaria: '#2a3580',
           'mais-milionaria': '#2a3580',
           lotofacil: '#91278f',
           quina: '#2e3192',
@@ -179,12 +181,25 @@ export default {
             DEFAULT: '#fff200',
             text: '#038141',
           },
+          duplasena: '#a62b43',
           'dupla-sena': '#a62b43',
           loteca: '#eb212c',
           lotogol: '#2bbde7',
+          diasorte: {
+            DEFAULT: '#e3c021',
+            text: '#7e6906',
+          },
+          diadesorte: {
+            DEFAULT: '#e3c021',
+            text: '#7e6906',
+          },
           'dia-de-sorte': {
             DEFAULT: '#e3c021',
             text: '#7e6906',
+          },
+          supersete: {
+            DEFAULT: '#bed730',
+            text: '#038141',
           },
           'super-sete': {
             DEFAULT: '#bed730',
