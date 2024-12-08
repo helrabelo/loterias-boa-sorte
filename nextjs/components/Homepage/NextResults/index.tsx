@@ -54,6 +54,17 @@ const NextResults = ({ results }: NextResultsProps) => {
     return groups;
   }, {});
 
+  const formatBrazilianDate = (dateString: string) => {
+    const [day, month, year] = dateString.split('/');
+    const date = new Date(Number(year), Number(month) - 1, Number(day));
+    
+    return date.toLocaleDateString('pt-BR', {
+      weekday: 'long',
+      day: '2-digit',
+      month: '2-digit',
+    });
+  };
+
   return (
     <div className="bg-white rounded-lg border p-4">
       <h3 className="text-xl font-bold mb-4 text-semantic-primary">
@@ -64,11 +75,7 @@ const NextResults = ({ results }: NextResultsProps) => {
         {Object.entries(groupedDraws).map(([date, draws]) => (
           <div key={date} className="border-b last:border-0 pb-4 last:pb-0">
             <div className="text-sm font-medium text-gray-500 mb-2 uppercase">
-              {new Date(date).toLocaleDateString('pt-BR', {
-                weekday: 'long',
-                day: '2-digit',
-                month: '2-digit',
-              })}
+              {formatBrazilianDate(date)}
             </div>
             
             <div className="space-y-2">
