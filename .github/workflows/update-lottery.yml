@@ -1,0 +1,14 @@
+name: Update Lottery Results
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Run every hour
+  workflow_dispatch:      # Allows manual trigger from GitHub UI
+
+jobs:
+  update-results:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger API endpoint
+        run: |
+          curl -X POST https://loteriasboasorte.com.br/api/loteria/latest
