@@ -6,6 +6,7 @@ import { Clover } from './Clover';
 import { gameThemes } from '@/const/games';
 import FederalResult from './Federal';
 import LotecaResult from './Loteca';
+import Winners from './Winners';
 
 interface GameResultProps {
   game: GameType;
@@ -115,25 +116,7 @@ export function GameResult({ game, data }: GameResultProps) {
 
         {/* Winners & Prize section for non-Federal games */}
         {game !== 'federal' && data.listaRateioPremio && (
-          <div>
-            {data.listaRateioPremio?.map((premio: any, index: number) => (
-              <div
-                key={index}
-                className="flex justify-between py-2 border-b last:border-0"
-              >
-                <div className="text-sm">
-                  {premio.descricaoFaixa} ({premio.numeroDeGanhadores}{' '}
-                  ganhadores)
-                </div>
-                <div className="font-bold">
-                  {premio.valorPremio.toLocaleString('pt-BR', {
-                    style: 'currency',
-                    currency: 'BRL',
-                  })}
-                </div>
-              </div>
-            ))}
-          </div>
+          <Winners data={data} />
         )}
 
         {/* Accumulation */}

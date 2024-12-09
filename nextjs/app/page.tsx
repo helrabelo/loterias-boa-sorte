@@ -69,45 +69,36 @@ export default async function Page() {
 
   return (
     <>
-      <div className="container my-4 mx-auto px-4">
-        <div className="grid lg:grid-cols-4 gap-6">
-          {/* Sidebar */}
-          <div className="lg:col-span-1 relative">
-            <Hero settings={settings} />
+      {/* Results Grid */}
+      <div className="lg:col-span-6">
+        <h1 className="text-2xl font-bold mb-6 text-semantic-primary">
+          Últimos Resultados
+        </h1>
+        {results.length > 0 ? (
+          <div className="grid md:grid-cols-2 gap-6">
+            {results.map(({ game, result }) => (
+              <GameResult
+                key={`${game}-${result.numero}`}
+                game={game}
+                data={result}
+              />
+            ))}
           </div>
-
-          {/* Results Grid */}
-          <div className="lg:col-span-2">
-            <h1 className="text-2xl font-bold mb-6 text-semantic-primary">
-              Últimos Resultados
-            </h1>
-            {results.length > 0 ? (
-              <div className="grid md:grid-cols-2 gap-6">
-                {results.map(({ game, result }) => (
-                  <GameResult
-                    key={`${game}-${result.numero}`}
-                    game={game}
-                    data={result}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="text-center p-8 border rounded-lg bg-gray-50">
-                <p className="text-gray-600">
-                  Não foi possível carregar os resultados no momento. Por favor,
-                  tente novamente mais tarde.
-                </p>
-              </div>
-            )}
+        ) : (
+          <div className="lg:col-span-6 text-center p-8 border rounded-lg bg-gray-50">
+            <p className="text-gray-600">
+              Não foi possível carregar os resultados no momento. Por favor,
+              tente novamente mais tarde.
+            </p>
           </div>
+        )}
+      </div>
 
-          {/* Next Contests And Other Pages */}
-          <div className="lg:col-span-1 h-full">
-            <div className="relative h-full">
-              <div className="lg:sticky lg:top-[96px]">
-                <NextResults results={results} />
-              </div>
-            </div>
+      {/* Next Contests And Other Pages */}
+      <div className="lg:col-span-3 h-full">
+        <div className="relative h-full">
+          <div className="lg:sticky lg:top-[96px]">
+            <NextResults results={results} />
           </div>
         </div>
       </div>

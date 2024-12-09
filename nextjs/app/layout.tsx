@@ -7,8 +7,7 @@ import { VisualEditing } from 'next-sanity';
 import { Toaster } from 'sonner';
 
 import DraftModeToast from '@/components/DraftModeToast';
-import Footer from '@/components/Footer';
-import Header from '@/components/Header';
+import Layout from '@/components/Layout';
 import * as demo from '@/lib/sanity/demo';
 import { sanityFetch, SanityLive } from '@/lib/sanity/live';
 import { settingsQuery } from '@/lib/sanity/queries';
@@ -127,9 +126,10 @@ export default async function RootLayout({
           </>
         )}
         <SanityLive onError={handleError} />
-        <Header />
-        <main className="flex-1 pt-24">{children}</main>
-        <Footer settings={settings} />
+        <Layout settings={settings}>
+          {children}
+        </Layout>
+        
         <SpeedInsights />
       </body>
     </html>

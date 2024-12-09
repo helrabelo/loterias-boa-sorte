@@ -20,9 +20,7 @@ export default function Header() {
             />
             {/* Span with Boa Sorte <br /> Loterias */}
             <span className="hidden sm:block font-caixa font-bold text-md md:text-md leading-5 text-semantic-primary">
-              Boa Sorte
-              <br />
-              Loterias
+              Loterias Boa Sorte <br />Aldeota
             </span>
           </Link>
 
