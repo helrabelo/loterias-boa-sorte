@@ -7,7 +7,7 @@ export type GameType =
   | 'duplasena'
   | 'federal'
   | 'loteca'
-  | 'diasorte'
+  | 'diadesorte'
   | 'supersete'
   | 'maismilionaria';
 

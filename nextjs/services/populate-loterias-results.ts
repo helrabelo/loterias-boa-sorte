@@ -9,7 +9,7 @@ const latestResults: Record<GameType, { numeroConcurso: number }> = {
   quina: { numeroConcurso: 6599 },
   timemania: { numeroConcurso: 2176 },
   duplasena: { numeroConcurso: 2747 },
-  diasorte: { numeroConcurso: 997 },
+  diadesorte: { numeroConcurso: 997 },
   supersete: { numeroConcurso: 629 },
   loteca: { numeroConcurso: 950 },
   federal: { numeroConcurso: 5562 },

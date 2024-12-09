@@ -185,10 +185,6 @@ export default {
           'dupla-sena': '#a62b43',
           loteca: '#eb212c',
           lotogol: '#2bbde7',
-          diasorte: {
-            DEFAULT: '#e3c021',
-            text: '#7e6906',
-          },
           diadesorte: {
             DEFAULT: '#e3c021',
             text: '#7e6906',

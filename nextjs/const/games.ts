@@ -9,7 +9,7 @@ export const GAME_TYPES: GameType[] = [
   'duplasena',
   'federal',
   'loteca',
-  'diasorte',
+  'diadesorte',
   'supersete',
   'maismilionaria',
 ];
@@ -23,7 +23,7 @@ export const GAMES_SETTINGS: Record<GameType, { title: string }> = {
   duplasena: { title: 'Dupla-Sena' },
   federal: { title: 'Federal' },
   loteca: { title: 'Loteca' },
-  diasorte: { title: 'Dia de Sorte' },
+  diadesorte: { title: 'Dia de Sorte' },
   supersete: { title: 'Super Sete' },
   maismilionaria: { title: 'Mais Milionária' },
 };
@@ -78,11 +78,6 @@ export const gameThemes = {
     bg: 'bg-lottery-lotogol',
     text: 'text-white',
     border: 'border-lottery-lotogol',
-  },
-  diasorte: {
-    bg: 'bg-lottery-dia-de-sorte',
-    text: 'text-lottery-dia-de-sorte-text',
-    border: 'border-lottery-dia-de-sorte',
   },
   diadesorte: {
     bg: 'bg-lottery-dia-de-sorte',

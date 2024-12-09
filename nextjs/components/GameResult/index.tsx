@@ -95,7 +95,7 @@ export function GameResult({ game, data }: GameResultProps) {
           </div>
         )}
 
-        {game === 'diasorte' && data.nomeTimeCoracaoMesSorte && (
+        {game === 'diadesorte' && data.nomeTimeCoracaoMesSorte && (
           <div>
             <div className="text-sm text-gray-500">Mês da Sorte</div>
             <div className="font-bold">{data.nomeTimeCoracaoMesSorte}</div>

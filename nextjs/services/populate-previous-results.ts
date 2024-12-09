@@ -178,8 +178,8 @@ const latestResults: Record<GameType, Partial<LotteryResult>> = {
     dataProximoConcurso: '2024-12-06',
     valorEstimadoProximoConcurso: 850000,
   } as DuplaSena,
-  diasorte: {
-    loteria: 'diasorte',
+  diadesorte: {
+    loteria: 'diadesorte',
     numeroConcurso: 997,
     data: '2024-12-05',
     dezenas: ['02', '03', '07', '17', '19', '21', '29'],
