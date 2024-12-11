@@ -14,18 +14,96 @@ export const GAME_TYPES: GameType[] = [
   'maismilionaria',
 ];
 
-export const GAMES_SETTINGS: Record<GameType, { title: string }> = {
-  megasena: { title: 'Mega-Sena' },
-  lotofacil: { title: 'Lotofácil' },
-  quina: { title: 'Quina' },
-  lotomania: { title: 'Lotomania' },
-  timemania: { title: 'Timemania' },
-  duplasena: { title: 'Dupla-Sena' },
-  federal: { title: 'Federal' },
-  loteca: { title: 'Loteca' },
-  diadesorte: { title: 'Dia de Sorte' },
-  supersete: { title: 'Super Sete' },
-  maismilionaria: { title: 'Mais Milionária' },
+interface GameConfig {
+  title: string;
+  maxNumbers: number;  // quantidadeMaximaDeNumerosPorJogo
+  requiredNumbers: number;  // quantidadeNumeros
+  minNumber: number;  // numeroMinimo
+  maxNumber: number;  // numeroMaximo
+  minTrevo?: number;  // numeroMinimoTrevo
+  maxTrevo?: number;  // numeroMaximoTrevo
+}
+
+export const GAMES_SETTINGS: Record<GameType, GameConfig> = {
+  megasena: {
+    title: 'Mega-Sena',
+    maxNumbers: 20,
+    requiredNumbers: 6,
+    minNumber: 1,
+    maxNumber: 60
+  },
+  lotofacil: {
+    title: 'Lotofácil',
+    maxNumbers: 20,
+    requiredNumbers: 15,
+    minNumber: 1,
+    maxNumber: 25
+  },
+  quina: {
+    title: 'Quina',
+    maxNumbers: 15,
+    requiredNumbers: 5,
+    minNumber: 1,
+    maxNumber: 80
+  },
+  lotomania: {
+    title: 'Lotomania',
+    maxNumbers: 50,
+    requiredNumbers: 50,
+    minNumber: 1,
+    maxNumber: 100
+  },
+  duplasena: {
+    title: 'Dupla-Sena',
+    maxNumbers: 15,
+    requiredNumbers: 6,
+    minNumber: 1,
+    maxNumber: 50
+  },
+  diadesorte: {
+    title: 'Dia de Sorte',
+    maxNumbers: 15,
+    requiredNumbers: 7,
+    minNumber: 1,
+    maxNumber: 31
+  },
+  maismilionaria: {
+    title: 'Mais Milionária',
+    maxNumbers: 6,
+    requiredNumbers: 6,
+    minNumber: 1,
+    maxNumber: 50,
+    minTrevo: 1,
+    maxTrevo: 6
+  },
+  timemania: {
+    title: 'Timemania',
+    maxNumbers: 10,
+    requiredNumbers: 10,
+    minNumber: 1,
+    maxNumber: 80
+  },
+  federal: {
+    title: 'Federal',
+    maxNumbers: 0,
+    requiredNumbers: 0,
+    minNumber: 0,
+    maxNumber: 0
+  },
+  loteca: {
+    title: 'Loteca',
+    maxNumbers: 14,
+    requiredNumbers: 14,
+    minNumber: 1,
+    maxNumber: 3
+  },
+  supersete: {
+    title: 'Super Sete',
+    maxNumbers: 7,
+    requiredNumbers: 7,
+    minNumber: 0,
+    maxNumber: 9
+  }
 };
 
 export const gameThemes = {
