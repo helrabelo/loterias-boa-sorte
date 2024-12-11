@@ -21,7 +21,7 @@ async function fetchWithProxy(targetUrl: string) {
 async function fetchLatestResultsFromCaixa() {
   const url =
     'https://servicebus2.caixa.gov.br/portaldeloterias/api/home/ultimos-resultados';
-  const response = await fetchWithProxy(url);
+  const response = await fetch(url);
 
   if (!response.ok) {
     throw new Error(
@@ -35,7 +35,7 @@ async function fetchLatestResultsFromCaixa() {
 async function fetchResult(game: GameType, contestNumber: number) {
   try {
     const url = `https://servicebus2.caixa.gov.br/portaldeloterias/api/${game}/${contestNumber}`;
-    const response = await fetchWithProxy(url);
+    const response = await fetch(url);
 
     if (!response.ok) {
       throw new Error(
