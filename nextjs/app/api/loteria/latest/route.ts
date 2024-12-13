@@ -6,22 +6,33 @@ import { GameType } from '@/types/loteria';
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function fetchWithProxy(targetUrl: string) {
-  const token = process.env.CRAWLBASE_TOKEN;
-  const crawlbaseUrl = `https://api.crawlbase.com/?token=${token}&url=${encodeURIComponent(targetUrl)}`;
-  
-  const response = await fetch(crawlbaseUrl);
-  
+  const smartProxyUrl = `https://scraper-api.smartproxy.com/v2/scrape`;
+
+  const response = await fetch(smartProxyUrl, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Basic ${process.env.SMARTPROXY_SCARPER_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      url: targetUrl,
+    }),
+  });
+
   if (!response.ok) {
-    throw new Error(`Proxy request failed: ${response.status} ${response.statusText}`);
+    throw new Error(
+      `Proxy request failed: ${response.status} ${response.statusText}`
+    );
   }
-  
+
   return response;
 }
 
 async function fetchLatestResultsFromCaixa() {
   const url =
     'https://servicebus2.caixa.gov.br/portaldeloterias/api/home/ultimos-resultados';
-  const response = await fetch(url);
+  const response = await fetchWithProxy(url);
 
   if (!response.ok) {
     throw new Error(
@@ -35,7 +46,7 @@ async function fetchLatestResultsFromCaixa() {
 async function fetchResult(game: GameType, contestNumber: number) {
   try {
     const url = `https://servicebus2.caixa.gov.br/portaldeloterias/api/${game}/${contestNumber}`;
-    const response = await fetch(url);
+    const response = await fetchWithProxy(url);
 
     if (!response.ok) {
       throw new Error(
@@ -98,14 +109,15 @@ export async function POST() {
 
     // First, fetch latest results
     console.log('Fetching latest results...');
-    const latestResults = await fetchLatestResultsFromCaixa();
+    const { results: rawResults } = await fetchLatestResultsFromCaixa();
+    const latestResults = JSON.parse(rawResults[0].content);
     console.log('Latest results fetched successfully');
 
     // Fetch detailed results
     const results = await Promise.all(
       Object.entries(gamesMap).map(async ([originalGame, gameKey], index) => {
         try {
-          await delay(index * 500);
+          await delay(index * 100);
 
           const contestNumber = latestResults[originalGame]?.numeroDoConcurso;
           if (!contestNumber) {
@@ -114,10 +126,12 @@ export async function POST() {
           }
 
           console.log(`Fetching ${gameKey} contest ${contestNumber}...`);
-          const detailedResult = await fetchResult(
+          const {results: rawGameResult} = await fetchResult(
             gameKey as GameType,
             contestNumber
           );
+
+          const detailedResult = JSON.parse(rawGameResult[0].content);
 
           if (!detailedResult) {
             console.log(
