@@ -34,7 +34,7 @@ export default function Header() {
               </li>
               <li className="hidden md:block">
                 <Link
-                  href="/conferir"
+                  href="/conferir-jogo"
                   className="text-gray-700 hover:underline underline-offset-4 transition"
                 >
                   Conferir Jogos
