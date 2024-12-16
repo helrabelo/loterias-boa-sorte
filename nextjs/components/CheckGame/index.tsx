@@ -1,39 +1,11 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { GameType } from '@/types/loteria';
 import { GAMES_SETTINGS } from '@/const/games';
+import { GameType } from '@/types/loteria';
+import NumberButton from './NumberButton';
 
 interface GameCheckerProps {
   onCheck: (gameType: GameType, numbers: string[]) => Promise<void>;
 }
-
-const NumberButton = React.memo(
-  ({
-    number,
-    isSelected,
-    onClick,
-  }: {
-    number: number;
-    isSelected: boolean;
-    onClick: () => void;
-  }) => (
-    <button
-      onClick={onClick}
-      className={`
-      w-12 h-12 rounded-full flex items-center justify-center text-lg font-medium
-      transition-all duration-200
-      ${
-        isSelected
-          ? 'bg-semantic-primary text-white ring-2 ring-semantic-primary ring-offset-2'
-          : 'bg-gray-100 hover:bg-gray-200 text-gray-900'
-      }
-    `}
-    >
-      {number.toString().padStart(2, '0')}
-    </button>
-  )
-);
-
-NumberButton.displayName = 'NumberButton';
 
 export default function GameChecker({ onCheck }: GameCheckerProps) {
   const [selectedGame, setSelectedGame] = useState<GameType | ''>('');
@@ -106,11 +78,12 @@ export default function GameChecker({ onCheck }: GameCheckerProps) {
             number={number}
             isSelected={selectedNumbers.includes(number)}
             onClick={() => toggleNumber(number)}
+            game={selectedGame as GameType}
           />
         ))}
       </div>
     );
-  }, [gameSettings, selectedNumbers, toggleNumber]);
+  }, [gameSettings, selectedNumbers, toggleNumber, selectedGame]);
 
   const renderTrevoGrid = useCallback(() => {
     if (selectedGame !== 'maismilionaria') return null;
@@ -129,6 +102,8 @@ export default function GameChecker({ onCheck }: GameCheckerProps) {
               number={number}
               isSelected={selectedTrevoNumbers.includes(number)}
               onClick={() => toggleNumber(number, true)}
+              game={selectedGame as GameType}
+              isTrevo
             />
           ))}
         </div>
@@ -178,7 +153,7 @@ export default function GameChecker({ onCheck }: GameCheckerProps) {
               {selectedNumbers.map((number) => (
                 <span
                   key={number}
-                  className="px-3 py-1 bg-semantic-primary text-white rounded-full text-sm"
+                  className="px-3 py-1 bg-semantic-accent text-white rounded-full text-sm"
                 >
                   {number.toString().padStart(2, '0')}
                 </span>
