@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -35,7 +35,7 @@ const StickySocialNav = ({ settings }: { settings: Settings }) => {
       </Link>
 
       <Link
-        href={settings?.socialMedia?.instagram || '#'}
+        href={settings?.socialMedia?.instagram?.url || '#'}
         target="_blank"
         rel="noopener noreferrer"
         className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-[#833AB4] via-[#FD1D1D] to-[#F77737] text-white shadow-lg hover:scale-110 transition-transform duration-300"
