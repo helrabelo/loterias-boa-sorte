@@ -77,7 +77,7 @@ export function GameResult({ game, data, settings }: GameResultProps) {
   const getWhatsAppMessage = () => {
     const baseMessage = settings?.contactInfo?.whatsapp || '';
     return encodeURIComponent(
-      `${baseMessage}\n\nGostaria de apostar na ${game.toUpperCase()}\nConcurso: ${data.numero}\nData: ${data.dataProximoConcurso}`
+      `Oi! Vim pelo site e gostaria de apostar na ${game.toUpperCase()}\nConcurso: ${data.numero}\nData: ${data.dataProximoConcurso}`
     );
   };
 
