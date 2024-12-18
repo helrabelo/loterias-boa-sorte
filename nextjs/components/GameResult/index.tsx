@@ -140,14 +140,19 @@ export function GameResult({ game, data }: GameResultProps) {
                   currency: 'BRL',
                 })}
               </div>
-              <div className="text-sm text-gray-500">
-                Próximo sorteio:{' '}
-                <span className="underline underline-offset-4">
-                  {data.dataProximoConcurso}
-                </span>
-              </div>
             </div>
           )}
+
+        {data.dataProximoConcurso && (
+          <div className="mt-4 text-center">
+            <div className="text-sm text-gray-500">
+              Próximo sorteio:{' '}
+              <span className="underline underline-offset-4">
+                {data.dataProximoConcurso}
+              </span>
+            </div>
+          </div>
+        )}
       </div>
     </BaseCard>
   );

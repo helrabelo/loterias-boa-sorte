@@ -26,7 +26,7 @@ export default function Header() {
             <ul className="flex items-center gap-4 md:gap-8 font-caixa">
               <li className="hidden md:block">
                 <Link
-                  href="/resultados"
+                  href="/"
                   className="text-gray-700 hover:underline underline-offset-4 transition"
                 >
                   Últimos Resultados
