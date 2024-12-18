@@ -7,10 +7,13 @@ import { gameThemes } from '@/const/games';
 import FederalResult from './Federal';
 import LotecaResult from './Loteca';
 import Winners from './Winners';
+import { Settings } from '@/sanity.types';
+import { IoLogoWhatsapp, IoLogoInstagram } from 'react-icons/io5';
 
 interface GameResultProps {
   game: GameType;
   data: any;
+  settings: Settings;
 }
 
 function handleContent(game: GameType, data: any) {
@@ -68,8 +71,15 @@ function handleContent(game: GameType, data: any) {
   }
 }
 
-export function GameResult({ game, data }: GameResultProps) {
+export function GameResult({ game, data, settings }: GameResultProps) {
   const theme = gameThemes[game as keyof typeof gameThemes];
+
+  const getWhatsAppMessage = () => {
+    const baseMessage = settings?.contactInfo?.whatsapp || '';
+    return encodeURIComponent(
+      `${baseMessage}\n\nGostaria de apostar na ${game.toUpperCase()}\nConcurso: ${data.numero}\nData: ${data.dataProximoConcurso}`
+    );
+  };
 
   return (
     <BaseCard game={game}>
@@ -144,12 +154,35 @@ export function GameResult({ game, data }: GameResultProps) {
           )}
 
         {data.dataProximoConcurso && (
-          <div className="mt-4 text-center">
-            <div className="text-sm text-gray-500">
-              Próximo sorteio:{' '}
-              <span className="underline underline-offset-4">
-                {data.dataProximoConcurso}
-              </span>
+          <div className="mt-6 rounded-lg p-4 bg-semantic-primary-bg border shadow-sm">
+            <div className="text-center space-y-3">
+              <div className="font-semibold text-sm text-semantic-primary">
+                Aposte no próximo jogo:
+              </div>
+              <div className="flex justify-center gap-3">
+                {settings?.contactInfo?.whatsapp && (
+                  <a
+                    href={`https://wa.me/${settings.contactInfo.whatsapp}?text=${getWhatsAppMessage()}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 max-w-36 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-semantic-primary text-white rounded-lg hover:bg-semantic-primary-600 transition-colors"
+                  >
+                    <IoLogoWhatsapp className="text-xl" />
+                    <span>WhatsApp</span>
+                  </a>
+                )}
+                {settings?.socialMedia?.instagram?.url && (
+                  <a
+                    href={settings.socialMedia.instagram.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 max-w-36 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-semantic-accent text-white rounded-lg hover:bg-semantic-accent-hover transition-colors"
+                  >
+                    <IoLogoInstagram className="text-xl" />
+                    <span>Instagram</span>
+                  </a>
+                )}
+              </div>
             </div>
           </div>
         )}

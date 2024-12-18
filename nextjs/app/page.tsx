@@ -81,6 +81,7 @@ export default async function Page() {
                 key={`${game}-${result.numero}`}
                 game={game}
                 data={result}
+                settings={settings}
               />
             ))}
           </div>
