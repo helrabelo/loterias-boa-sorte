@@ -1,5 +1,5 @@
 // app/api/loteria/[game]/latest/route.ts
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import redis from '@/services/redis';
 import { GameType } from '@/types/loteria';
 
@@ -73,16 +73,14 @@ async function fetchResult(game: GameType, contestNumber: number) {
   }
 }
 
-export async function GET(
-  request: Request,
-  { params }: { params: { game: string } }
-) {
+export async function GET(request: NextRequest) {
+  const game = request?.nextUrl.pathname.split('/')[3];
+
   try {
-    const { game } = params;
     const result = await redis.get(`lottery:${game}:latest`);
     return NextResponse.json(result ? result : null);
   } catch (error) {
-    console.error(`Failed to fetch results for ${params.game}:`, error);
+    console.error(`Failed to fetch results for ${game}:`, error);
     return NextResponse.json(
       { error: 'Failed to fetch lottery results' },
       { status: 500 }
@@ -90,12 +88,9 @@ export async function GET(
   }
 }
 
-export async function POST(
-  request: Request,
-  { params }: { params: { game: string } }
-) {
+export async function POST(request: NextRequest) {
+  const game = request?.nextUrl.pathname.split('/')[3];
   try {
-    const { game } = params;
     const gameKey = game as GameType;
 
     // Find the original game name from gamesMap
@@ -154,7 +149,7 @@ export async function POST(
       success: true,
     });
   } catch (error) {
-    console.error(`Failed to fetch results for ${params.game}:`, error);
+    console.error(`Failed to fetch results for ${game}:`, error);
     return NextResponse.json(
       { error: `Failed to fetch lottery results: ${error}` },
       { status: 500 }
