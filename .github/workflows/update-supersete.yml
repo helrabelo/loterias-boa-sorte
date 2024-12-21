@@ -1,0 +1,19 @@
+# .github/workflows/update-[game]-results.yml
+name: Update [Game] Results
+
+on:
+  schedule:
+    # Stagger the cron schedules to avoid concurrent execution
+    # Replace XX with different minute values for each game (0-59)
+    - cron: '00 23 * * *'  # Runs at 23:XX UTC daily
+  workflow_dispatch:
+
+jobs:
+  update-results:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger API endpoint
+        run: |
+          curl -X POST \
+          -H "accept: application/json" \
+          https://loteriasboasorte.com.br/api/loteria/supersete/latest
