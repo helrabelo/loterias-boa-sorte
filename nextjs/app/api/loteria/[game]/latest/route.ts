@@ -1,4 +1,5 @@
 // app/api/loteria/[game]/latest/route.ts
+import { HttpsProxyAgent } from 'https-proxy-agent';
 import { NextResponse, NextRequest } from 'next/server';
 import redis from '@/services/redis';
 import { GameType } from '@/types/loteria';
@@ -18,18 +19,23 @@ const gamesMap = {
 } as const;
 
 async function fetchWithProxy(targetUrl: string) {
-  const smartProxyUrl = `https://scraper-api.smartproxy.com/v2/scrape`;
+  // Proxy configuration
+  const proxyHost = 'gate.smartproxy.com';
+  const proxyPort = '10001';
+  const proxyUrl = `http://${process.env.SMARTPROXY_USER}:${process.env.SMARTPROXY_PASSWORD}@${proxyHost}:${proxyPort}`;
 
-  const response = await fetch(smartProxyUrl, {
-    method: 'POST',
+  // Create proxy agent
+  const proxyAgent = new HttpsProxyAgent(proxyUrl);
+
+  // In Node.js/Next.js environment, we need to use a custom fetch configuration
+  const response = await fetch(targetUrl, {
     headers: {
       Accept: 'application/json',
-      Authorization: `Basic ${process.env.SMARTPROXY_SCARPER_API_KEY}`,
-      'Content-Type': 'application/json',
+      'User-Agent':
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
     },
-    body: JSON.stringify({
-      url: targetUrl,
-    }),
+    // @ts-expect-error - The Node.js fetch API types don't include the agent property
+    agent: proxyAgent,
   });
 
   if (!response.ok) {
@@ -37,8 +43,9 @@ async function fetchWithProxy(targetUrl: string) {
       `Proxy request failed: ${response.status} ${response.statusText}`
     );
   }
+  const jsonResponse = await response.json();
 
-  return response;
+  return jsonResponse;
 }
 
 async function fetchLatestResultsFromCaixa() {
@@ -46,13 +53,13 @@ async function fetchLatestResultsFromCaixa() {
     'https://servicebus2.caixa.gov.br/portaldeloterias/api/home/ultimos-resultados';
   const response = await fetchWithProxy(url);
 
-  if (!response.ok) {
+  if (!response) {
     throw new Error(
       `Failed to fetch latest results: ${response.status} ${response.statusText}`
     );
   }
 
-  return response.json();
+  return response;
 }
 
 async function fetchResult(game: GameType, contestNumber: number) {
@@ -60,13 +67,13 @@ async function fetchResult(game: GameType, contestNumber: number) {
     const url = `https://servicebus2.caixa.gov.br/portaldeloterias/api/${game}/${contestNumber}`;
     const response = await fetchWithProxy(url);
 
-    if (!response.ok) {
+    if (!response) {
       throw new Error(
         `Failed to fetch ${game} contest ${contestNumber}: ${response.status} ${response.statusText}`
       );
     }
 
-    return response.json();
+    return response;
   } catch (error) {
     console.error(`Error fetching ${game} contest ${contestNumber}:`, error);
     return null;
@@ -104,8 +111,8 @@ export async function POST(request: NextRequest) {
 
     // Fetch latest results
     console.log(`Fetching latest results for ${game}...`);
-    const { results: rawResults } = await fetchLatestResultsFromCaixa();
-    const latestResults = JSON.parse(rawResults[0].content);
+    const latestResults = await fetchLatestResultsFromCaixa();
+    // const latestResults = JSON.parse(rawResults[0].content);
     console.log('Latest results fetched successfully');
 
     const contestNumber = latestResults[originalGame]?.numeroDoConcurso;
@@ -119,11 +126,10 @@ export async function POST(request: NextRequest) {
 
     // Fetch specific game result
     console.log(`Fetching ${game} contest ${contestNumber}...`);
-    const { results: rawGameResult } = await fetchResult(
+    const detailedResult = await fetchResult(
       gameKey,
       contestNumber
     );
-    const detailedResult = JSON.parse(rawGameResult[0].content);
 
     if (!detailedResult) {
       console.log(
