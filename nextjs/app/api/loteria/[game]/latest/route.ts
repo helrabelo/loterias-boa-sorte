@@ -17,15 +17,34 @@ const gamesMap = {
   maisMilionaria: 'maismilionaria',
 } as const;
 
+async function fetchWithProxy(targetUrl: string) {
+  const smartProxyUrl = `https://scraper-api.smartproxy.com/v2/scrape`;
+
+  const response = await fetch(smartProxyUrl, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Basic ${process.env.SMARTPROXY_SCARPER_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      url: targetUrl,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(
+      `Proxy request failed: ${response.status} ${response.statusText}`
+    );
+  }
+
+  return response;
+}
+
 async function fetchLatestResultsFromCaixa() {
   const url =
     'https://servicebus2.caixa.gov.br/portaldeloterias/api/home/ultimos-resultados';
-  const response = await fetch(url, {
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-  });
+  const response = await fetchWithProxy(url);
 
   if (!response.ok) {
     throw new Error(
@@ -33,13 +52,13 @@ async function fetchLatestResultsFromCaixa() {
     );
   }
 
-  return response;
+  return response.json();
 }
 
 async function fetchResult(game: GameType, contestNumber: number) {
   try {
     const url = `https://servicebus2.caixa.gov.br/portaldeloterias/api/${game}/${contestNumber}`;
-    const response = await fetch(url);
+    const response = await fetchWithProxy(url);
 
     if (!response.ok) {
       throw new Error(
@@ -47,7 +66,7 @@ async function fetchResult(game: GameType, contestNumber: number) {
       );
     }
 
-    return response;
+    return response.json();
   } catch (error) {
     console.error(`Error fetching ${game} contest ${contestNumber}:`, error);
     return null;
@@ -85,12 +104,11 @@ export async function POST(request: NextRequest) {
 
     // Fetch latest results
     console.log(`Fetching latest results for ${game}...`);
-    const latestResults = await fetchLatestResultsFromCaixa();
-
+    const { results: rawResults } = await fetchLatestResultsFromCaixa();
+    const latestResults = JSON.parse(rawResults[0].content);
     console.log('Latest results fetched successfully');
 
-    const latestResultsJson = await latestResults.json();
-    const contestNumber = latestResultsJson[originalGame]?.numeroDoConcurso;
+    const contestNumber = latestResults[originalGame]?.numeroDoConcurso;
     if (!contestNumber) {
       console.log(`No contest number found for ${game}`);
       return NextResponse.json(
@@ -101,15 +119,11 @@ export async function POST(request: NextRequest) {
 
     // Fetch specific game result
     console.log(`Fetching ${game} contest ${contestNumber}...`);
-    const rawGameResult = await fetchResult(gameKey, contestNumber);
-    if (!rawGameResult) {
-      console.log(`Failed to fetch ${game} contest ${contestNumber}`);
-      return NextResponse.json(
-        { error: 'Failed to fetch game result' },
-        { status: 500 }
-      );
-    }
-    const detailedResult = await rawGameResult.json();
+    const { results: rawGameResult } = await fetchResult(
+      gameKey,
+      contestNumber
+    );
+    const detailedResult = JSON.parse(rawGameResult[0].content);
 
     if (!detailedResult) {
       console.log(

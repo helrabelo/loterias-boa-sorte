@@ -1,5 +1,5 @@
 # .github/workflows/update-[game]-results.yml
-name: Update [Game] Results
+name: Update Federal Results
 
 on:
   schedule:
