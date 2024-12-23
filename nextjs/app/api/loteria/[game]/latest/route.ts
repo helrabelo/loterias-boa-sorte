@@ -1,9 +1,9 @@
 // app/api/loteria/[game]/latest/route.ts
-import { HttpsProxyAgent } from 'https-proxy-agent';
 import { NextResponse, NextRequest } from 'next/server';
 import redis from '@/services/redis';
 import { GameType } from '@/types/loteria';
 
+import { fetchWithProxy } from '@/data/fetch-with-proxy';
 const gamesMap = {
   diaDeSorte: 'diadesorte',
   duplasena: 'duplasena',
@@ -17,36 +17,6 @@ const gamesMap = {
   timemania: 'timemania',
   maisMilionaria: 'maismilionaria',
 } as const;
-
-async function fetchWithProxy(targetUrl: string) {
-  // Proxy configuration
-  const proxyHost = 'gate.smartproxy.com';
-  const proxyPort = '10001';
-  const proxyUrl = `http://${process.env.SMARTPROXY_USER}:${process.env.SMARTPROXY_PASSWORD}@${proxyHost}:${proxyPort}`;
-
-  // Create proxy agent
-  const proxyAgent = new HttpsProxyAgent(proxyUrl);
-
-  // In Node.js/Next.js environment, we need to use a custom fetch configuration
-  const response = await fetch(targetUrl, {
-    headers: {
-      Accept: 'application/json',
-      'User-Agent':
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-    },
-    // @ts-expect-error - The Node.js fetch API types don't include the agent property
-    agent: proxyAgent,
-  });
-
-  if (!response.ok) {
-    throw new Error(
-      `Proxy request failed: ${response.status} ${response.statusText}`
-    );
-  }
-  const jsonResponse = await response.json();
-
-  return jsonResponse;
-}
 
 async function fetchLatestResultsFromCaixa() {
   const url =
@@ -126,10 +96,7 @@ export async function POST(request: NextRequest) {
 
     // Fetch specific game result
     console.log(`Fetching ${game} contest ${contestNumber}...`);
-    const detailedResult = await fetchResult(
-      gameKey,
-      contestNumber
-    );
+    const detailedResult = await fetchResult(gameKey, contestNumber);
 
     if (!detailedResult) {
       console.log(
