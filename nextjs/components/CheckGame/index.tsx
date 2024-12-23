@@ -148,8 +148,8 @@ export default function GameChecker({ onCheck }: GameCheckerProps) {
 
           {renderTrevoGrid()}
 
-          <div className="space-y-2 flex justify-between items-center">
-            <div className="flex flex-wrap gap-2">
+          <div className="space-y-2 flex flex-col gap-4 md:flex-row justify-between items-center">
+            <div className="flex flex-wrap gap-1 lg:gap-2">
               {selectedNumbers.map((number) => (
                 <span
                   key={number}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { use } from 'react';
 import { FaCalendarAlt as Calendar } from 'react-icons/fa';
 import { FiTarget as Target } from 'react-icons/fi';
 import { TbMapPinFilled as MapPin } from 'react-icons/tb';
@@ -114,15 +114,18 @@ export default function ResultsDisplay({
             </h3>
             <div className="flex flex-wrap gap-2">
               {result.userNumbers.map((number) => (
-                <span
-                  key={number}
-                  className={`w-10 h-10 flex items-center justify-center 
-                    ${result.matches?.includes(number) ? 'bg-green-500' : 'bg-gray-200'} 
-                    ${result.matches?.includes(number) ? 'text-white' : 'text-gray-700'}
+                <>
+                  {console.log({ number })}
+                  <span
+                    key={number}
+                    className={`w-10 h-10 flex items-center justify-center 
+                    ${result.listaDezenas?.includes(number) ? 'bg-green-500' : 'bg-gray-200'} 
+                    ${result.listaDezenas?.includes(number) ? 'text-white' : 'text-gray-700'}
                     rounded-full font-semibold transition-colors`}
-                >
-                  {number.padStart(2, '0')}
-                </span>
+                  >
+                    {number.padStart(2, '0')}
+                  </span>
+                </>
               ))}
             </div>
           </div>

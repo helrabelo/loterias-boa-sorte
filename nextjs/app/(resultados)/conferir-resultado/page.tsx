@@ -42,16 +42,17 @@ export default function CheckResultPage() {
         queryParams.append(`number${index}`, number);
       });
 
-      const response = await fetch(
-        `/api/loteria/${gameType}?${queryParams.toString()}`
-      );
+      const response = await fetch(`/api/loteria/${gameType}/latest`);
       const data = await response.json();
 
       if (!response.ok || data.error) {
         throw new Error(data.error || 'Failed to check game');
       }
 
-      setResult(data);
+      setResult({
+        ...data,
+        userNumbers: numbers.map((number) => number.padStart(2, '0')),
+      });
       setIsVerifying(false);
     } catch (error) {
       console.error('Error checking game:', error);
