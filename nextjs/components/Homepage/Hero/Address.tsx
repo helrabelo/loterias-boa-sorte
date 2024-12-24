@@ -14,7 +14,7 @@ interface Address {
 }
 
 const AddressInfo = ({ address }: { address: Address }) => {
-  const [showMap, setShowMap] = useState(false);
+  const [showMap, setShowMap] = useState(true);
   const [mapUrl, setMapUrl] = useState('');
 
   const loadMap = async () => {
