@@ -14,6 +14,7 @@ import { settingsQuery } from '@/lib/sanity/queries';
 import { resolveOpenGraphImage } from '@/lib/sanity/utils';
 import { handleError } from './client-utils';
 import { Settings } from '@/sanity.types';
+import Script from 'next/script';
 
 export async function generateMetadata(): Promise<Metadata> {
   const { data: settings } = await sanityFetch<typeof settingsQuery>({
@@ -126,12 +127,15 @@ export default async function RootLayout({
           </>
         )}
         <SanityLive onError={handleError} />
-        <Layout settings={settings}>
-          {children}
-        </Layout>
-        
+        <Layout settings={settings}>{children}</Layout>
+
         <SpeedInsights />
       </body>
+      <Script
+        strategy="afterInteractive"
+        data-domain="loteriasboasorte.com.br"
+        src="https://plausible.io/js/script.js"
+      />
     </html>
   );
 }
