@@ -63,7 +63,7 @@ export default function CheckResultPage() {
   };
 
   return (
-    <>
+    <div className="grid grid-cols-1 md:grid-cols-9 gap-6">
       <div className="lg:col-span-6 container mx-auto py-8 border rounded-lg shadow-lg">
         <div className="">
           <h1 className="text-2xl font-bold mb-8">Verificar Jogos</h1>
@@ -76,13 +76,15 @@ export default function CheckResultPage() {
           )}
         </div>
       </div>
-      <div className="lg:col-span-3 container mx-auto py-8 border rounded-lg shadow-lg">
-        <ResultsDisplay
-          result={result}
-          error={error}
-          isVerifying={isVerifying}
-        />
-      </div>
-    </>
+      {result && (
+        <div className="lg:col-span-3 container mx-auto py-8 border rounded-lg shadow-lg">
+          <ResultsDisplay
+            result={result}
+            error={error}
+            isVerifying={isVerifying}
+          />
+        </div>
+      )}
+    </div>
   );
 }

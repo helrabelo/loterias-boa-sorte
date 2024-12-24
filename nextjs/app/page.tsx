@@ -2,10 +2,9 @@
 import { sanityFetch } from '@/lib/sanity/live';
 import { settingsQuery } from '@/lib/sanity/queries';
 import { GameResult } from '@/components/GameResult';
-import Hero from '@/components/Homepage/Hero';
 import { GameType } from '@/types/loteria';
 import redis from '@/services/redis';
-import { GAME_TYPES, GAMES_SETTINGS } from '@/const/games';
+import { GAME_TYPES } from '@/const/games';
 import NextResults from '@/components/Homepage/NextResults';
 
 // Mark the page as dynamic
@@ -68,7 +67,7 @@ export default async function Page() {
   const results = await getLatestResults();
 
   return (
-    <>
+    <div className='grid grid-cols-1 md:grid-cols-9 gap-6'>
       {/* Results Grid */}
       <div className="lg:col-span-6">
         <h1 className="text-2xl font-bold mb-6 text-semantic-primary">
@@ -103,6 +102,6 @@ export default async function Page() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
