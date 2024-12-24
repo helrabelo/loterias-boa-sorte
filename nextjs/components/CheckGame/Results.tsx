@@ -1,4 +1,4 @@
-import React, { use } from 'react';
+import React, { Fragment } from 'react';
 import { FaCalendarAlt as Calendar } from 'react-icons/fa';
 import { FiTarget as Target } from 'react-icons/fi';
 import { TbMapPinFilled as MapPin } from 'react-icons/tb';
@@ -114,8 +114,7 @@ export default function ResultsDisplay({
             </h3>
             <div className="flex flex-wrap gap-2">
               {result.userNumbers.map((number) => (
-                <>
-                  {console.log({ number })}
+                <Fragment key={number}>
                   <span
                     key={number}
                     className={`w-10 h-10 flex items-center justify-center 
@@ -125,7 +124,7 @@ export default function ResultsDisplay({
                   >
                     {number.padStart(2, '0')}
                   </span>
-                </>
+                </Fragment>
               ))}
             </div>
           </div>
