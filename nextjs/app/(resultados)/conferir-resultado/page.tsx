@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { GameType } from '@/types/loteria';
 import GameChecker from '@/components/CheckGame';
 import ResultsDisplay from '@/components/CheckGame/Results';
+import classnames from 'classnames';
 
 interface PrizeBreakdown {
   descricaoFaixa: string;
@@ -64,7 +65,15 @@ export default function CheckResultPage() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-9 gap-6">
-      <div className="lg:col-span-6 container mx-auto py-8 border rounded-lg shadow-lg">
+      <div
+        className={classnames(
+          'container mx-auto py-8 border rounded-lg shadow-lg',
+          {
+            'lg:col-span-9': !result,
+            'lg:col-span-6': result,
+          }
+        )}
+      >
         <div className="">
           <h1 className="text-2xl font-bold mb-8">Verificar Jogos</h1>
           <GameChecker onCheck={handleCheck} />
@@ -76,15 +85,18 @@ export default function CheckResultPage() {
           )}
         </div>
       </div>
-      {result && (
-        <div className="lg:col-span-3 container mx-auto py-8 border rounded-lg shadow-lg">
-          <ResultsDisplay
-            result={result}
-            error={error}
-            isVerifying={isVerifying}
-          />
-        </div>
-      )}
+      <div
+        className={classnames(
+          'container mx-auto py-8 border rounded-lg shadow-lg',
+          { 'lg:col-span-3': result, hidden: !result }
+        )}
+      >
+        <ResultsDisplay
+          result={result}
+          error={error}
+          isVerifying={isVerifying}
+        />
+      </div>
     </div>
   );
 }
